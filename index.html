@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Delivery</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="envelope-wrapper" id="envelope-container">
+            <div class="envelope" id="envelope" onclick="handleEnvelopeClick()">
+                <div class="front"></div>
+                <div class="top"></div>
+                <div class="card">
+                    <div id="card-content"><div class="card-text">Click to Open</div></div>
+                    <div id="loader" class="loader hidden"></div>
+                </div>
+            </div>
+            <p class="instruction">You have a wedding gift message!</p>
+        </div>
+
+        <div id="otp-section" class="hidden">
+            <div class="glass-card">
+                <h2>Verify Identity</h2>
+                <p>A 6-digit code was sent to your email.</p>
+                <input type="text" id="otp-input" maxlength="6" placeholder="000000">
+                <button onclick="verifyOTP()">Unlock Message</button>
+                
+                <div class="resend-container">
+                    <p id="resend-text">Didn't get the code?</p>
+                    <button id="resend-btn" class="secondary-btn" onclick="resendOTP()">Resend OTP</button>
+                    <p id="timer" class="timer-text"></p>
+                </div>
+                
+                <p id="error-msg" class="error"></p>
+            </div>
+        </div>
+
+        <div id="gift-message" class="hidden">
+            <div class="message-content">
+                <h1 class="cursive">To the Happy Couple</h1>
+                <hr>
+                <p>May your love grow stronger with every passing year. This gift is a small token of my appreciation for your beautiful journey together.</p>
+                <p class="signature">- With Love</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
