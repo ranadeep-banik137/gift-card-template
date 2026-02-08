@@ -101,3 +101,107 @@ input {
     animation: spin 1s linear infinite;
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+/* Teaser Card */
+.teaser-card {
+background: rgba(255,255,255,0.9);
+padding: 14px 24px;
+border-radius: 8px;
+margin-bottom: 20px;
+font-style: italic;
+box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+
+/* Reveal Stage */
+#reveal-stage {
+position: fixed;
+inset: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+backdrop-filter: blur(4px);
+}
+
+
+.mask-container {
+  position: relative;
+  width: 340px;
+  height: 440px;
+  perspective: 1000px;
+}
+
+.mask-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(1.05);
+  filter: blur(6px);
+}
+
+.mask-layer.active {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  transition:
+    opacity 1.2s ease,
+    transform 1.8s cubic-bezier(.19,1,.22,1),
+    filter 1.5s ease;
+}
+
+.reveal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* Silk diagonal curtain */
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  transition: clip-path 2s cubic-bezier(.77,0,.18,1);
+}
+
+.mask-layer.active .reveal-img {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Romantic glow */
+.mask-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255,255,255,0.15),
+    rgba(0,0,0,0.15)
+  );
+  pointer-events: none;
+}
+
+.handwrite-text {
+  position: absolute;
+  bottom: -80px;
+  width: 100%;
+  height: 120px;
+}
+
+.handwrite-text path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+
+  animation: handwriting 3s ease forwards;
+}
+
+@keyframes handwriting {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.redeem-btn {
+margin-top: 25px;
+}

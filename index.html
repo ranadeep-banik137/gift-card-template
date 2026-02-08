@@ -17,17 +17,14 @@
 
     <div class="container">
         <div class="envelope-wrapper" id="envelope-container">
+			<div class="teaser-card">
+			<p class="teaser-text">A secured surprise awaits 💌</p>
+			</div>
             <div class="envelope" id="envelope" onclick="handleEnvelopeClick()">
-                <div class="front"></div>
-                <div class="top"></div>
-                <div class="card">
-                    <div id="card-content">
-                        <div class="card-text">For You</div>
-                        <div class="heart">❤</div>
-                    </div>
-                    <div id="loader" class="loader hidden"></div>
-                </div>
-            </div>
+				<div class="front"></div>
+				<div class="top"></div>
+				<div class="card dummy-card"></div>
+			</div>
             <p class="instruction">Click the envelope to reveal your gift</p>
         </div>
 
@@ -50,17 +47,42 @@
                 <p id="error-msg" class="error"></p>
             </div>
         </div>
-
+		
+		<div id="reveal-stage" class="hidden">
+			<div class="mask-container">
+				<div class="mask-layer">
+				  <img src="https://img.freepik.com/free-photo/authentic-indian-bride-groom-s-hands-holding-together-traditional-wedding-attire_8353-10049.jpg?t=st=1770534526~exp=1770538126~hmac=059fa337fa2a57a814ffd850dabeda7fcf97f686ce494b3289e7677712b06438" class="reveal-img">
+				</div>
+				<div class="mask-layer">
+				  <img src="https://img.freepik.com/free-photo/wedding-ritual-putting-ring-finger-india_8353-10048.jpg?t=st=1770534549~exp=1770538149~hmac=0aa54ea69616f6067909fd5776d8d83bdc879368670479162ff03ecee5b4de95" class="reveal-img">
+				</div>
+				<div class="mask-layer">
+				  <img src="https://img.freepik.com/free-photo/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_8353-8909.jpg?t=st=1770534569~exp=1770538169~hmac=66ada7bef6858afe0550fb2a347ead76ebfac1b5e2178beda39142298ef01e81" class="reveal-img">
+				</div>
+			<svg class="handwrite-text" viewBox="0 0 600 120">
+			  <path d="
+				M20 80
+				Q120 20 220 80
+				T420 80
+				Q520 60 580 80
+			  " />
+			</svg>
+			</div>
+		</div>
+		
         <div id="gift-message" class="hidden">
             <div class="elegant-card">
                 <h1 class="cursive">To the Happy Couple</h1>
                 <div class="divider"></div>
                 <p class="message-body">May your love grow stronger with every passing year. This gift is a small token of my appreciation for your beautiful journey together.</p>
                 <p class="signature cursive">- With Love</p>
+				
+				<button class="gold-btn redeem-btn">Redeem Your Gift 🎁</button>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
+	<audio id="bg-music" src="romantic.mp3" preload="auto"></audio>
 </body>
 </html>

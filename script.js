@@ -39,18 +39,18 @@ async function generateAndSendOTP() {
 async function handleEnvelopeClick() {
     const env = document.getElementById('envelope');
     if (env.classList.contains('open')) return;
-    
+
     env.classList.add('open');
-    document.getElementById('card-content').classList.add('hidden');
-    document.getElementById('loader').classList.remove('hidden');
 
     try {
         await generateAndSendOTP();
         startResendTimer();
+
         setTimeout(() => {
             document.getElementById('envelope-container').classList.add('hidden');
             document.getElementById('otp-section').classList.remove('hidden');
-        }, 2200);
+        }, 1800);
+
     } catch (err) {
         alert("Could not send verification code. Please refresh the page.");
     }
@@ -61,17 +61,100 @@ async function verifyOTP() {
     const { data } = await _supabase.from('wedding_otps').select('otp').eq('email', RECIPIENT_EMAIL).single();
 
     if (data && data.otp === userInput) {
-        confetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#d4af37', '#ffffff']
-        });
-        document.getElementById('otp-section').classList.add('hidden');
-        document.getElementById('gift-message').classList.remove('hidden');
-    } else {
+		confetti({ particleCount: 180, spread: 80 });
+		startRosePetals()
+		document.getElementById('otp-section').classList.add('hidden');
+		fadeInMusic();
+		startRevealSequence();
+	} else {
         document.getElementById('error-msg').innerText = "Incorrect code. Please try again.";
     }
+}
+
+function fadeInMusic() {
+  const music = document.getElementById('bg-music');
+  music.volume = 0;
+  music.play();
+
+  let v = 0;
+  const fade = setInterval(() => {
+    v += 0.02;
+    music.volume = Math.min(v, 0.35);
+    if (v >= 0.35) clearInterval(fade);
+  }, 120);
+}
+
+function startRosePetals() {
+  const canvas = document.createElement('canvas');
+  canvas.style.position = 'fixed';
+  canvas.style.inset = 0;
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = 9999;
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const petals = Array.from({ length: 30 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    r: 6 + Math.random() * 6,
+    speed: 0.6 + Math.random(),
+    drift: Math.random() * 2 - 1,
+    angle: Math.random() * Math.PI
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    petals.forEach(p => {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = 'rgba(214, 77, 109, 0.7)';
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.r, p.r * 0.6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      p.y += p.speed;
+      p.x += p.drift;
+      p.angle += 0.01;
+
+      if (p.y > canvas.height) p.y = -20;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+
+  setTimeout(() => canvas.remove(), 9000);
+}
+
+function startRevealSequence() {
+  const stage = document.getElementById('reveal-stage');
+  const layers = document.querySelectorAll('.mask-layer');
+
+  stage.classList.remove('hidden');
+
+  layers.forEach((layer, index) => {
+    setTimeout(() => {
+      // Remove active from previous
+      layers.forEach(l => l.classList.remove('active'));
+      layer.classList.add('active');
+    }, index * 2600);
+  });
+
+  // After last image
+  setTimeout(() => {
+    document.querySelector('.mask-text').style.opacity = '1';
+  }, layers.length * 2600 - 800);
+
+  // Transition to message
+  setTimeout(() => {
+    stage.classList.add('hidden');
+    document.getElementById('gift-message').classList.remove('hidden');
+  }, layers.length * 2600 + 1200);
 }
 
 function resendOTP() {
