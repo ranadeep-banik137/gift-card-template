@@ -111,70 +111,80 @@ font-style: italic;
 box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-
-/* Reveal Stage */
 #reveal-stage {
-position: fixed;
-inset: 0;
-display: flex;
-justify-content: center;
-align-items: center;
-backdrop-filter: blur(4px);
+    position: fixed;
+    inset: 0;
+    background: #000; /* Deep black for high contrast */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    z-index: 1000;
 }
 
-
 .mask-container {
-  position: relative;
-  width: 340px;
-  height: 440px;
-  perspective: 1000px;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .mask-layer {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: scale(1.05);
-  filter: blur(6px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 500px;
+    margin-left: -200px;
+    margin-top: -250px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateZ(-500px) scale(0.5); /* Start deep in the back */
 }
 
+/* The Cinematic "Pass-Through" Animation */
 .mask-layer.active {
-  opacity: 1;
-  transform: scale(1);
-  filter: blur(0);
-  transition:
-    opacity 1.2s ease,
-    transform 1.8s cubic-bezier(.19,1,.22,1),
-    filter 1.5s ease;
+    animation: cinemaPass 4s cubic-bezier(0.15, 0, 0.15, 1) forwards;
+}
+
+@keyframes cinemaPass {
+    0% {
+        opacity: 0;
+        transform: translateZ(-500px) scale(0.5) rotateY(20deg);
+        filter: blur(10px) brightness(0);
+    }
+    20% {
+        opacity: 1;
+        filter: blur(0px) brightness(1.2);
+    }
+    80% {
+        opacity: 1;
+        filter: blur(0px) brightness(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateZ(1000px) scale(3) rotateY(-10deg); /* Fly past the camera */
+        filter: blur(20px) brightness(2);
+    }
 }
 
 .reveal-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-
-  /* Silk diagonal curtain */
-  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-  transition: clip-path 2s cubic-bezier(.77,0,.18,1);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); /* Subtle gold glow */
+    border: 1px solid rgba(212, 175, 55, 0.5);
 }
 
-.mask-layer.active .reveal-img {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+/* Add a "Film Grain" or Dust Effect */
+#reveal-stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.3;
+    pointer-events: none;
 }
 
-/* Romantic glow */
-.mask-layer::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255,255,255,0.15),
-    rgba(0,0,0,0.15)
-  );
-  pointer-events: none;
-}
 
 .handwrite-text {
   position: absolute;

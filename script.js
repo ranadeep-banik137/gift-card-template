@@ -132,29 +132,27 @@ function startRosePetals() {
 }
 
 function startRevealSequence() {
-  const stage = document.getElementById('reveal-stage');
-  const layers = document.querySelectorAll('.mask-layer');
+    const stage = document.getElementById('reveal-stage');
+    const layers = document.querySelectorAll('.mask-layer');
+    stage.classList.remove('hidden');
 
-  stage.classList.remove('hidden');
+    layers.forEach((layer, index) => {
+        // Rapid fire: images blast out every 1.5 seconds
+        setTimeout(() => {
+            layer.classList.add('active');
+        }, index * 1500);
+    });
 
-  layers.forEach((layer, index) => {
+    // Fade out the black stage and reveal the gift card
+    const totalTime = (layers.length * 1500) + 3000;
     setTimeout(() => {
-      // Remove active from previous
-      layers.forEach(l => l.classList.remove('active'));
-      layer.classList.add('active');
-    }, index * 2600);
-  });
-
-  // After last image
-  setTimeout(() => {
-    document.querySelector('.mask-text').style.opacity = '1';
-  }, layers.length * 2600 - 800);
-
-  // Transition to message
-  setTimeout(() => {
-    stage.classList.add('hidden');
-    document.getElementById('gift-message').classList.remove('hidden');
-  }, layers.length * 2600 + 1200);
+        stage.style.transition = 'opacity 2s ease';
+        stage.style.opacity = '0';
+        setTimeout(() => {
+            stage.classList.add('hidden');
+            document.getElementById('gift-message').classList.remove('hidden');
+        }, 2000);
+    }, totalTime);
 }
 
 function resendOTP() {
@@ -183,4 +181,35 @@ function startResendTimer() {
             timerText.innerText = "";
         }
     }, 1000);
+}
+
+async function initiateRedeem() {
+    const btn = document.getElementById('redeem-btn');
+    const status = document.getElementById('status-msg');
+    
+    btn.disabled = true;
+    btn.innerText = "Processing...";
+    status.classList.remove('hidden');
+    status.innerText = "Connecting to secure banking portal...";
+
+    try {
+        // We call a Supabase Edge Function to handle the money securely
+        const { data, error } = await _supabase.functions.invoke('process-payout', {
+            body: { email: RECIPIENT_EMAIL }
+        });
+
+        if (error) throw error;
+
+        // Redirect user to the Stripe Express Dashboard to enter bank details
+        if (data.url) {
+            status.innerText = "Redirecting to Stripe to secure your funds...";
+            window.location.href = data.url;
+        }
+
+    } catch (err) {
+        console.error(err);
+        status.innerText = "Transfer failed. Please contact the administrator.";
+        btn.disabled = false;
+        btn.innerText = "Redeem Your Gift 🎁";
+    }
 }
