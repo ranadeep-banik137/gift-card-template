@@ -183,33 +183,13 @@ function startResendTimer() {
     }, 1000);
 }
 
-async function initiateRedeem() {
-    const btn = document.getElementById('redeem-btn');
-    const status = document.getElementById('status-msg');
+function initiateRedeem() {
+    // Show a quick loading state
+    const btn = document.querySelector('.redeem-btn');
+    btn.innerText = "Redirecting to Secure Portal...";
     
-    btn.disabled = true;
-    btn.innerText = "Processing...";
-    status.classList.remove('hidden');
-    status.innerText = "Connecting to secure banking portal...";
-
-    try {
-        // We call a Supabase Edge Function to handle the money securely
-        const { data, error } = await _supabase.functions.invoke('process-payout', {
-            body: { email: RECIPIENT_EMAIL }
-        });
-
-        if (error) throw error;
-
-        // Redirect user to the Stripe Express Dashboard to enter bank details
-        if (data.url) {
-            status.innerText = "Redirecting to Stripe to secure your funds...";
-            window.location.href = data.url;
-        }
-
-    } catch (err) {
-        console.error(err);
-        status.innerText = "Transfer failed. Please contact the administrator.";
-        btn.disabled = false;
-        btn.innerText = "Redeem Your Gift 🎁";
-    }
+    // Smoothly redirect to the separate banking page
+    setTimeout(() => {
+        window.location.href = 'payout.html';
+    }, 1200);
 }
