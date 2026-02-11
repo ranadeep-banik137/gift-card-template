@@ -1,244 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gift Allocation | Secure Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #d4af37;
-            --dark-bg: #0a0a0a;
-            --card-bg: #111111;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Wedding Gift</title>
 
-        body {
-            margin: 0;
-            background-color: var(--dark-bg);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 450px;
-            padding: 40px;
-            background: var(--card-bg);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 2px; /* Sharp corners for premium look */
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -1px; left: -1px; right: -1px; bottom: -1px;
-            border: 1px solid var(--gold);
-            clip-path: polygon(0 0, 15% 0, 0 15%, 0 0, 100% 0, 85% 0, 100% 15%, 100% 0, 100% 100%, 85% 100%, 100% 85%, 100% 100%, 0 100%, 15% 100%, 0 85%, 0 100%);
-            pointer-events: none;
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            color: var(--gold);
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        .loader-box {
-            padding: 40px 0;
-        }
-
-        /* Minimal Pulse Loader */
-        .pulse {
-            width: 20px;
-            height: 20px;
-            background-color: var(--gold);
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.8); opacity: 0.5; }
-        }
-
-        #voucher-box {
-            display: none;
-            animation: fadeIn 1s ease forwards;
-        }
-
-        .voucher-card {
-            background: #000;
-            padding: 30px 20px;
-            border: 1px dashed rgba(212, 175, 55, 0.5);
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .voucher-code {
-            font-family: 'Courier New', monospace;
-            font-size: 1.6rem;
-            letter-spacing: 3px;
-            color: white;
-            display: block;
-            margin-bottom: 15px;
-        }
-
-        .copy-btn {
-            background: none;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 8px 20px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .copy-btn:hover {
-            background: var(--gold);
-            color: black;
-        }
-
-        .instruction {
-            font-size: 0.8rem;
-            color: #666;
-            margin-top: 20px;
-            line-height: 1.6;
-        }
-
-        .hidden { display: none; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="pageout-style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-<body>
 
-<div class="container">
-    <div id="loading-state">
-        <div class="pulse"></div>
-        <h1>Securing Allocation</h1>
-        <p style="font-size: 0.8rem; color: #555;">Validating cryptographic hash...</p>
-    </div>
+<body class="payout-body">
 
-    <div id="voucher-box">
-        <h1>Your Gift is Ready</h1>
-        <div class="voucher-card">
-            <span class="voucher-code" id="final-code">XXXX-XXXX-XXXX</span>
-            <button class="copy-btn" onclick="copyCode()">Copy Code</button>
-        </div>
-        <p class="instruction">
-            This code can be redeemed on <strong>Amazon.in</strong><br>
-            under the 'Gift Cards' section.
-        </p>
-		<button class="copy-btn" style="margin-top:20px; border-color: #444; color: #888;" onclick="returnHome()">
-			Return to Home
-		</button>
-    </div>
+<!-- Background slideshow -->
+<div class="payout-slideshow">
+  <img src="https://media.istockphoto.com/id/866987706/photo/indian-wedding-hands.jpg?s=612x612&w=0&k=20&c=6L-u9qhFPv9MjDnF4UK4AqjVbDKM4_8Xad72IHhwPZE=" class="payout-slide active">
+  <img src="https://img.freepik.com/free-photo/hands-indian-bride-groom-intertwined-together-making-authentic-wedding-ritual_8353-10047.jpg?semt=ais_user_personalization&w=740&q=80" class="payout-slide">
+  <img src="https://www.manyavar.com/dw/image/v2/BJZV_PRD/on/demandware.static/-/Library-Sites-ManyavarSharedLibrary/default/dw0651b7ec/Unique%20Wedding%20Ceremony%20Ideas%20in%20an%20Inter-cultural%20Indian%20Wedding_blog%201.jpg" class="payout-slide">
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Dark overlay -->
+<div class="payout-overlay">
+
+  <!-- Message block -->
+  <div class="message-block">
+    <h1 class="payout-title">With Love & Best Wishes</h1>
+    <p class="payout-message">
+      Dear <span id="guestName">Guest</span>,  
+      thank you for being a part of our special day.
+    </p>
+    <p class="payout-sub">
+      We wish you happiness, love, and beautiful memories always.
+    </p>
+  </div>
+
+  <!-- Voucher card -->
+  <div class="voucher-card">
+
+    <h2 class="voucher-title">Your Gift Card</h2>
+
+    <!-- Mask reveal -->
+    <div class="voucher-mask">
+      <div class="voucher-details">
+        <div class="voucher-row">
+          <span class="label">Voucher Code</span>
+          <span class="value" id="voucherCode">XXXX-XXXX</span>
+        </div>
+        <div class="voucher-row">
+          <span class="label">PIN</span>
+          <span class="value" id="voucherPin">XXXX</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="redeem-btn" onclick="openSteps()">How to Redeem</button>
+  </div>
+
+</div>
+
+<!-- Instructions modal -->
+<div class="steps-modal hidden" id="stepsModal">
+  <div class="steps-card">
+    <h3>How to Redeem Your Gift</h3>
+    <ol>
+      <li>Visit the official gift card website.</li>
+      <li>Enter the voucher code exactly as shown.</li>
+      <li>Enter the PIN when prompted.</li>
+      <li>Confirm and enjoy your gift.</li>
+    </ol>
+    <button onclick="closeSteps()">Close</button>
+  </div>
+</div>
+
 <script>
-    // Ensure these match your project exactly
-const SUPABASE_URL = 'https://wivamsbwvojjzvvbaeet.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_rs2u88McT9Exv4k-rffQaQ__PcIVG2M';
+/* slideshow */
+const slides = document.querySelectorAll(".payout-slide");
+let current = 0;
 
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+setInterval(() => {
+  slides[current].classList.remove("active");
+  current = (current + 1) % slides.length;
+  slides[current].classList.add("active");
+}, 4500);
 
-async function copyCode() {
-        const codeText = document.getElementById('final-code').innerText;
-        const btn = document.getElementById('copy-btn');
-        
-        try {
-            // Modern Clipboard API
-            await navigator.clipboard.writeText(codeText);
-            btn.innerText = "COPIED!";
-        } catch (err) {
-            // Fallback for non-HTTPS or older browsers
-            const textArea = document.createElement("textarea");
-            textArea.value = codeText;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            btn.innerText = "COPIED!";
-        }
-        
-        setTimeout(() => { btn.innerText = "COPY CODE"; }, 2000);
-    }
-
-async function claimVoucher() {
-    try {
-        // 1. Fetch one unused voucher
-        // The Supabase client automatically adds the 'apikey' header here
-        const { data, error } = await _supabase
-            .from('gift_vouchers')
-            .select('id, voucher_code')
-            .eq('is_used', false)
-            .limit(1)
-            .single();
-
-        if (error) {
-            console.error("Fetch Error:", error.message);
-            alert("No gifts available at the moment. Please check back later.");
-            const container = document.getElementById('loading-state') || document.body;
-            container.innerHTML = `
-                <h1 style="color: #666;">ALLOCATION CLOSED</h1>
-                <p>All available gifts have been claimed. Redirecting home...</p>
-            `;
-            
-            // Redirect after 3 seconds
-            setTimeout(() => { window.location.href = 'index.html'; }, 3500);
-            return;
-        }
-
-        if (data) {
-            // 2. Immediately mark it as used so no one else gets it
-            const { updateError } = await _supabase
-                .from('gift_vouchers')
-                .update({ 
-                    is_used: true, 
-                    assigned_to: 'ranadeep_banik@yahoo.com' // You can make this dynamic later
-                })
-                .eq('id', data.id);
-
-            if (updateError) {
-                console.error("Update Error:", updateError.message);
-                return;
-            }
-
-            // 3. UI Reveal with a slight delay for dramatic effect
-            setTimeout(() => {
-                document.getElementById('loading-state').style.display = 'none';
-                document.getElementById('voucher-box').style.display = 'block';
-                document.getElementById('final-code').innerText = data.voucher_code;
-            }, 3000);
-        }
-    } catch (err) {
-        console.error("System Error:", err);
-		window.location.href = 'index.html';
-    }
+/* guest name (fallback-safe) */
+const storedName = localStorage.getItem("guestName");
+if (storedName) {
+  document.getElementById("guestName").innerText = storedName;
 }
 
-// Call the function on load
-claimVoucher();
+/* demo values (replace with real later) */
+document.getElementById("voucherCode").innerText = "ABCD-1234-WEDS";
+document.getElementById("voucherPin").innerText = "8291";
 
-function returnHome() {
-    window.location.href = 'index.html';
+function openSteps(){
+  document.getElementById("stepsModal").classList.remove("hidden");
+}
+
+function closeSteps(){
+  document.getElementById("stepsModal").classList.add("hidden");
 }
 </script>
+
 </body>
 </html>

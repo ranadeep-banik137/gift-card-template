@@ -1,217 +1,218 @@
-:root {
-    --gold: #d4af37;
-    --dark-gold: #b38f4d;
-    --white: #ffffff;
-    --bg-url: url('https://img.freepik.com/free-vector/decorative-background-design_1110-177.jpg?t=st=1770496411~exp=1770500011~hmac=873b3310c050f8e2152240f4f73c767868d7bb4880cc9db6faf5ac406243e892');
-}
-
-body, html {
-    margin: 0; padding: 0;
-    height: 100vh; width: 100%;
-    display: flex; justify-content: center; align-items: center;
+/* GLOBAL */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
     overflow: hidden;
-    font-family: 'Playfair Display', serif;
+    color: white;
 }
 
-.main-bg {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: var(--bg-url) no-repeat center center;
-    background-size: cover;
+.hidden { display: none; }
+
+/* BACKGROUND */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+      url("https://png.pngtree.com/background/20250102/original/pngtree-a-romantic-white-and-gold-wedding-ceremony-with-delicate-floral-arrangements-picture-image_16015177.jpg") center/cover no-repeat;
+    z-index: -2;
+}
+
+/* PARTICLES */
+.particles {
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.15) 2px, transparent 2px);
+    background-size: 90px 90px;
+    animation: drift 60s linear infinite;
     z-index: -1;
 }
 
-.hidden { display: none !important; }
-
-/* ENVELOPE (Original Working Style) */
-.envelope-wrapper { cursor: pointer; text-align: center; }
-.instruction { margin-top: 30px; color: #444; font-style: italic; font-weight: bold; text-shadow: 1px 1px 2px white; }
-
-.envelope {
-    position: relative; width: 300px; height: 200px;
-    background: #f3e5ab;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+@keyframes drift {
+    to { background-position: 1000px 1000px; }
 }
 
-.envelope .top {
-    position: absolute; top: 0; width: 0; height: 0;
-    border-left: 150px solid transparent; border-right: 150px solid transparent;
-    border-top: 100px solid #e6d58e;
-    transform-origin: top; transition: transform 0.5s 0.2s ease; z-index: 3;
-}
-
-.envelope.open .top { transform: rotateX(180deg); z-index: 0; }
-
-.envelope .front {
-    position: absolute; bottom: 0; width: 0; height: 0;
-    border-left: 150px solid transparent; border-right: 150px solid transparent;
-    border-bottom: 100px solid #f3e5ab; z-index: 2;
-}
-
-.envelope .card {
-    position: absolute; bottom: 10px; left: 10px;
-    width: 280px; height: 180px; background: white;
-    transition: transform 0.6s 0.6s ease; z-index: 1;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-}
-
-.envelope.open .card { transform: translateY(-110px); }
-.heart { color: #e74c3c; font-size: 1.5rem; margin-top: 5px; }
-
-/* ELEGANT CARDS (Fixed Spacing) */
-.elegant-card {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px; border-radius: 12px; border: 1px solid var(--gold);
-    text-align: center; width: 100%; max-width: 400px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    display: flex; flex-direction: column; gap: 15px; /* Ensures items don't overlap */
-}
-
-.card-desc { color: #666; font-size: 0.95rem; margin-bottom: 5px; }
-.cinzel { font-family: 'Cinzel', serif; color: var(--dark-gold); margin: 0; }
-.cursive { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--gold); margin: 0; }
-
-/* INPUT GROUP */
-.input-group { width: 100%; margin: 10px 0; }
-input {
-    width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px;
-    font-size: 1.4rem; letter-spacing: 5px; text-align: center;
-    background: white; outline-color: var(--gold);
-}
-
-.gold-btn {
-    background: var(--gold); color: white; border: none;
-    padding: 14px; font-family: 'Cinzel', serif; font-weight: bold;
-    border-radius: 4px; cursor: pointer; transition: 0.3s;
-}
-.gold-btn:hover { background: var(--dark-gold); }
-
-/* RESEND AREA */
-.resend-group { display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 0.85rem; }
-.resend-link { background: none; border: none; color: #888; text-decoration: underline; cursor: pointer; }
-.timer-text { color: #888; font-weight: bold; }
-
-.error { color: #e74c3c; font-size: 0.85rem; min-height: 20px; }
-.divider { width: 60px; height: 2px; background: var(--gold); margin: 10px auto; }
-.message-body { line-height: 1.7; color: #444; font-size: 1.1rem; }
-
-/* LOADER */
-.loader {
-    border: 3px solid #f3f3f3; border-top: 3px solid var(--gold);
-    border-radius: 50%; width: 30px; height: 30px;
-    animation: spin 1s linear infinite;
-}
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-/* Teaser Card */
-.teaser-card {
-background: rgba(255,255,255,0.9);
-padding: 14px 24px;
-border-radius: 8px;
-margin-bottom: 20px;
-font-style: italic;
-box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-}
-
-#reveal-stage {
-    position: fixed;
-    inset: 0;
-    background: #000; /* Deep black for high contrast */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1000px;
-    z-index: 1000;
-}
-
-.mask-container {
-    position: relative;
-    width: 100%;
+/* CENTER */
+.center-stage {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.mask-layer {
+/* GIFT */
+.gift-container {
+    width: 180px;
+    height: 160px;
+    position: relative;
+    cursor: pointer;
+}
+
+.gift-lid {
+    height: 50px;
+    background: crimson;
+    transition: transform 1s ease;
+    transform-origin: bottom;
+}
+
+.gift-box-body {
+    height: 110px;
+    background: darkred;
+}
+
+.gift-container.open .gift-lid {
+    transform: rotateX(-120deg);
+}
+
+.gift-light {
     position: absolute;
+    inset: -40px;
+    background: radial-gradient(circle, gold 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.gift-container.open .gift-light {
+    opacity: 1;
+}
+
+/* TEXT */
+.headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    text-align: center;
+}
+
+.cinematic-text .line {
+    display: block;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: textReveal 1.2s ease forwards;
+}
+
+.cinematic-text .line:nth-child(2) {
+    animation-delay: .6s;
+}
+
+@keyframes textReveal {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.subtext {
+    opacity: .8;
+}
+
+/* AUTH CARD */
+.auth-card {
+    position: fixed;
     top: 50%;
     left: 50%;
-    width: 400px;
-    height: 500px;
-    margin-left: -200px;
-    margin-top: -250px;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateZ(-500px) scale(0.5); /* Start deep in the back */
+    transform: translate(-50%,-50%);
+    width: 380px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(25px);
+    padding: 30px;
+    border-radius: 24px;
 }
 
-/* The Cinematic "Pass-Through" Animation */
-.mask-layer.active {
-    animation: cinemaPass 4s cubic-bezier(0.15, 0, 0.15, 1) forwards;
+.auth-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-@keyframes cinemaPass {
-    0% {
-        opacity: 0;
-        transform: translateZ(-500px) scale(0.5) rotateY(20deg);
-        filter: blur(10px) brightness(0);
-    }
-    20% {
-        opacity: 1;
-        filter: blur(0px) brightness(1.2);
-    }
-    80% {
-        opacity: 1;
-        filter: blur(0px) brightness(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateZ(1000px) scale(3) rotateY(-10deg); /* Fly past the camera */
-        filter: blur(20px) brightness(2);
-    }
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
 }
 
-.reveal-img {
+input {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); /* Subtle gold glow */
-    border: 1px solid rgba(212, 175, 55, 0.5);
+    padding: 14px;
+    margin: 15px 0;
+    border-radius: 10px;
+    border: none;
 }
 
-/* Add a "Film Grain" or Dust Effect */
-#reveal-stage::after {
-    content: "";
-    position: absolute;
+.primary-btn, .secondary-btn {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: gold;
+}
+
+.secondary-btn {
+    background: rgba(255,255,255,.2);
+    color: white;
+}
+
+/* ROSES */
+.rose-container {
+    position: fixed;
     inset: 0;
-    background: url('https://www.transparenttextures.com/patterns/stardust.png');
-    opacity: 0.3;
     pointer-events: none;
 }
 
-
-.handwrite-text {
-  position: absolute;
-  bottom: -80px;
-  width: 100%;
-  height: 120px;
+.rose {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: url("assets/rose-petal.png") center/cover no-repeat;
+    animation: petalFall linear forwards;
 }
 
-.handwrite-text path {
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
-
-  animation: handwriting 3s ease forwards;
+@keyframes petalFall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
-@keyframes handwriting {
-  to {
-    stroke-dashoffset: 0;
-  }
+/* CONFETTI */
+#confettiCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
 }
 
-.redeem-btn {
-margin-top: 25px;
+/* Sending OTP state */
+.hidden {
+    display: none;
+}
+
+.sending-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.mini-loader {
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: spinMini 1s linear infinite;
+}
+
+@keyframes spinMini {
+    to { transform: rotate(360deg); }
+}
+
+.primary-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }

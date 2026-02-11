@@ -1,89 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Delivery</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Wedding Gift Awaits</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
+
 <body>
 
-    <div class="main-bg"></div>
+<div class="particles"></div>
+<div class="rose-container" id="roseContainer"></div>
+<canvas id="confettiCanvas"></canvas>
 
-    <div class="container">
-        <div class="envelope-wrapper" id="envelope-container">
-			<div class="teaser-card">
-			<p class="teaser-text">A secured surprise awaits 💌</p>
-			</div>
-            <div class="envelope" id="envelope" onclick="handleEnvelopeClick()">
-				<div class="front"></div>
-				<div class="top"></div>
-				<div class="card dummy-card"></div>
-			</div>
-            <p class="instruction">Click the envelope to reveal your gift</p>
-        </div>
+<div class="center-stage">
 
-        <div id="otp-section" class="hidden">
-            <div class="elegant-card">
-                <h2 class="cinzel">Security Verification</h2>
-                <p class="card-desc">A 6-digit code has been sent to your email.</p>
-                
-                <div class="input-group">
-                    <input type="text" id="otp-input" maxlength="6" placeholder="000000">
-                </div>
-                
-                <button class="gold-btn" onclick="verifyOTP()">Unlock Message</button>
-                
-                <div class="resend-group">
-                    <button id="resend-btn" class="resend-link" onclick="resendOTP()">Resend Code</button>
-                    <span id="timer" class="timer-text"></span>
-                </div>
-                
-                <p id="error-msg" class="error"></p>
-            </div>
-        </div>
-		
-		<div id="reveal-stage" class="hidden">
-			<div class="mask-container">
-				<div class="mask-layer">
-				  <img src="https://img.freepik.com/free-photo/authentic-indian-bride-groom-s-hands-holding-together-traditional-wedding-attire_8353-10049.jpg?t=st=1770534526~exp=1770538126~hmac=059fa337fa2a57a814ffd850dabeda7fcf97f686ce494b3289e7677712b06438" class="reveal-img">
-				</div>
-				<div class="mask-layer">
-				  <img src="https://img.freepik.com/free-photo/wedding-ritual-putting-ring-finger-india_8353-10048.jpg?t=st=1770534549~exp=1770538149~hmac=0aa54ea69616f6067909fd5776d8d83bdc879368670479162ff03ecee5b4de95" class="reveal-img">
-				</div>
-				<div class="mask-layer">
-				  <img src="https://img.freepik.com/free-photo/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_8353-8909.jpg?t=st=1770534569~exp=1770538169~hmac=66ada7bef6858afe0550fb2a347ead76ebfac1b5e2178beda39142298ef01e81" class="reveal-img">
-				</div>
-			<svg class="handwrite-text" viewBox="0 0 600 120">
-			  <path d="
-				M20 80
-				Q120 20 220 80
-				T420 80
-				Q520 60 580 80
-			  " />
-			</svg>
-			</div>
-		</div>
-		
-        <div id="gift-message" class="hidden">
-            <div class="elegant-card">
-                <h1 class="cursive">To the Happy Couple</h1>
-                <div class="divider"></div>
-                <p class="message-body">May your love grow stronger with every passing year. This gift is a small token of my appreciation for your beautiful journey together.</p>
-                <p class="signature cursive">- With Love</p>
-				
-				<button class="gold-btn redeem-btn" onclick="initiateRedeem()">Redeem Your Gift 🎁</button>
-				<p id="status-msg" class="card-desc hidden"></p>
-            </div>
-        </div>
+    <div class="gift-container" onclick="openGift()">
+        <div class="gift-lid"></div>
+        <div class="gift-box-body"></div>
+        <div class="gift-light"></div>
     </div>
 
-    <script src="script.js"></script>
-	<audio id="bg-music" src="romantic.mp3" preload="auto"></audio>
+    <h1 class="headline cinematic-text">
+        <span class="line">Dear</span>
+        <span class="line guest-name" id="guestName">Guest</span>
+    </h1>
+
+    <p class="subtext">Tap the gift to reveal your blessing 💍</p>
+
+</div>
+
+<!-- AUTH CARD -->
+<div class="auth-card hidden" id="authCard">
+
+    <div class="auth-header">
+        <h2 id="authTitle">Email Verification</h2>
+        <button class="close-btn" onclick="closeAuth()">×</button>
+    </div>
+
+    <div class="auth-body">
+
+        <div id="stepEmail">
+			<input type="email" id="email" placeholder="Enter your email">
+
+			<button class="primary-btn" id="sendOtpBtn" onclick="sendOTP()">
+				Send OTP
+			</button>
+
+			<!-- FORCE HIDDEN VIA INLINE STYLE -->
+			<div class="sending-row" id="sendingState" style="display:none;">
+				<div class="mini-loader"></div>
+				<span>Sending OTP to your email…</span>
+			</div>
+		</div>
+
+        <div id="stepOTP" class="hidden">
+            <input type="text" id="otp" placeholder="Enter OTP">
+            <div class="button-row">
+                <button class="secondary-btn" onclick="goBack()">Back</button>
+                <button class="primary-btn" onclick="verifyOTP()">Verify</button>
+            </div>
+        </div>
+
+        <div class="auth-message" id="authMessage"></div>
+
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
