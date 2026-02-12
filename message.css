@@ -1,5 +1,5 @@
 :root {
-    /* Luxury Color Palette */
+    /* High-End Color Palette */
     --royal-gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #b38728 70%, #fbf5b7 100%);
     --accent-gold: #e6b94d;
     --glass-bg: rgba(255, 255, 255, 0.03);
@@ -9,140 +9,153 @@
 * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
 body, html { 
-    margin: 0; padding: 0; height: 100vh; width: 100vw; 
-    overflow: hidden; font-family: 'Montserrat', sans-serif;
-    background: #000; color: white;
+    margin: 0; padding: 0; 
+    height: 100dvh; width: 100vw; 
+    overflow: hidden; 
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    /* DYNAMIC DARK GRADIENT BACKGROUND */
+    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050505 100%);
 }
 
-/* PLAYFUL LIQUID GRADIENT BACKGROUND */
+/* PLAYFUL MOVING MESH OVERLAY */
 .mesh-gradient {
     position: fixed; inset: 0; z-index: -2;
-    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a0f00);
+    background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #16213e, #0f0c29);
     background-size: 400% 400%;
-    animation: liquidGradient 10s ease infinite;
+    animation: liquidFlow 15s ease infinite;
 }
 
-@keyframes liquidGradient {
+@keyframes liquidFlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* Subtle sparkle overlay for that "costly" feel */
-.mesh-gradient::after {
-    content: ""; position: absolute; inset: 0;
-    background-image: radial-gradient(circle at 50% 50%, #fff 1%, transparent 1%);
-    background-size: 80px 80px;
-    opacity: 0.03;
-}
-
+/* CINEMATIC FLEX LAYOUT (Prevents Overlapping) */
 .cinematic-wrapper {
-    height: 100vh; display: flex; flex-direction: column;
-    padding: 0 6vw; position: relative; z-index: 1;
+    height: 100dvh; 
+    display: flex; 
+    flex-direction: column;
+    padding: 0 5vw;
+    position: relative;
+    z-index: 1;
 }
 
-/* UNIQUE GREETING SECTION */
-.top-bar { padding: 40px 0 20px; text-align: left; }
-.welcome-tag { 
-    font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 10px;
-    color: var(--accent-gold); text-transform: uppercase; margin-bottom: 8px;
-    display: block; opacity: 0.8;
+/* FIXED HEADER */
+.top-bar { 
+    flex-shrink: 0; 
+    padding: 30px 0 10px; 
+    text-align: center;
 }
+
+.welcome-tag { 
+    font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 6px;
+    color: var(--accent-gold); text-transform: uppercase; margin-bottom: 5px;
+}
+
 .guest-title { 
-    font-family: 'Parisienne', cursive; font-size: clamp(2.5rem, 7vw, 5rem);
+    font-family: 'Parisienne', cursive; 
+    font-size: clamp(2rem, 5vw, 3.5rem);
     margin: 0; background: var(--royal-gold);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
 }
 
-/* MAIN STAGE WITH PLAYFUL TRANSITION */
-.main-stage { flex: 1; position: relative; perspective: 1500px; }
+/* RESPONSIVE MAIN STAGE */
+.main-stage { 
+    flex: 1; 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    overflow: hidden; /* Keeps images inside the center area */
+}
 
 .slide-item {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    gap: 6vw; opacity: 0; visibility: hidden; 
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-    transform: rotateX(10deg) translateY(50px) scale(0.9);
+    gap: 40px; opacity: 0; visibility: hidden; 
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateY(20px);
 }
 
 .slide-item.active { 
-    opacity: 1; visibility: visible; 
-    transform: rotateX(0deg) translateY(0) scale(1); 
+    opacity: 1; visibility: visible; transform: translateY(0); 
 }
 
-/* HIGH-END PHOTO CONTAINER */
-.photo-container { flex: 1; display: flex; justify-content: flex-end; }
+/* PHOTO CONTAINER (Scaling for Mobile) */
+.photo-container { 
+    flex: 1; display: flex; justify-content: flex-end; 
+    max-height: 100%;
+}
+
 .photo-frame {
-    background: var(--glass-bg);
-    padding: 15px; border: 1px solid var(--glass-border);
-    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    background: var(--glass-bg); padding: 10px;
+    border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
-    border-radius: 4px; position: relative;
-}
-
-.photo-frame::after { /* Luxury Corner Accents */
-    content: ''; position: absolute; top: -5px; right: -5px; 
-    width: 20px; height: 20px; border-top: 2px solid var(--accent-gold); border-right: 2px solid var(--accent-gold);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
 .photo-frame img {
-    display: block; width: auto; max-width: 100%; max-height: 55vh;
-    filter: contrast(105%);
+    display: block; width: auto; max-width: 100%; 
+    max-height: 50vh; /* Limits image height to prevent footer collision */
+    object-fit: contain;
 }
 
-/* THE SCROLLABLE ROYAL NOTEBOOK (Glassmorphism) */
-.note-container { flex: 1; display: flex; justify-content: flex-start; }
+/* SCROLLABLE NOTEBOOK (Modern Luxury) */
+.note-container { 
+    flex: 1; display: flex; justify-content: flex-start; 
+}
+
 .notebook-page {
-    background: rgba(10, 10, 10, 0.7);
-    backdrop-filter: blur(25px);
-    width: 100%; max-width: 450px;
-    height: 50vh; padding: 40px;
-    border: 1px solid var(--glass-border);
-    border-left: 5px solid var(--accent-gold);
-    box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(20px);
+    width: 100%; max-width: 400px;
+    max-height: 50vh; padding: 30px;
+    border-left: 4px solid var(--accent-gold);
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
     overflow-y: auto;
-    /* Elegant Gold Lined Pattern */
-    background-image: linear-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px);
-    background-size: 100% 3rem;
+    background-image: linear-gradient(rgba(212,175,55,0.05) 1px, transparent 1px);
+    background-size: 100% 2.5rem;
 }
 
 .notebook-page h2 {
     font-family: 'Cedarville Cursive', cursive;
-    font-size: 1.6rem; color: #f4f4f4; line-height: 3rem; margin: 0;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    font-size: 1.4rem; color: #f4f4f4; line-height: 2.5rem; margin: 0;
 }
 
-/* Modern Scrollbar */
-.notebook-page::-webkit-scrollbar { width: 3px; }
-.notebook-page::-webkit-scrollbar-thumb { background: var(--royal-gold); border-radius: 10px; }
+/* FIXED FOOTER */
+.bottom-bar { 
+    flex-shrink: 0; 
+    padding: 20px 0 40px; 
+}
 
-/* NAVIGATION CONTROLS */
-.bottom-bar { padding: 40px 0; }
-.controls-wrapper { display: flex; justify-content: space-between; align-items: center; }
+.controls-wrapper { 
+    display: flex; justify-content: space-between; align-items: center; 
+}
 
 .nav-arrow {
-    background: none; border: none; color: white;
-    font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 5px;
-    cursor: pointer; opacity: 0.5; transition: 0.4s;
+    background: none; border: 1px solid rgba(212,175,55,0.3); 
+    color: var(--accent-gold); padding: 10px 20px;
+    font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 3px;
+    cursor: pointer; transition: 0.3s;
 }
-.nav-arrow:hover { opacity: 1; color: var(--accent-gold); transform: translateX(5px); }
+
+.nav-arrow:hover { background: var(--accent-gold); color: black; }
 
 .claim-btn {
     background: var(--royal-gold); color: #000; border: none;
-    padding: 16px 50px; font-weight: 800; border-radius: 0;
-    font-family: 'Cinzel', serif; letter-spacing: 3px; cursor: pointer;
-    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
-    transition: 0.4s;
+    padding: 14px 40px; font-weight: 800; font-family: 'Cinzel';
+    cursor: pointer; box-shadow: 0 10px 30px rgba(212,175,55,0.3);
 }
-.claim-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(212, 175, 55, 0.5); }
 
-/* PROGRESS BAR */
-.progress-track { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.05); }
-.progress-glow { height: 100%; background: var(--royal-gold); transition: width 0.8s ease; box-shadow: 0 0 15px var(--accent-gold); }
-
+/* FULL RESPONSIVITY FOR MOBILE & TABLET */
 @media (max-width: 900px) {
-    .slide-item { flex-direction: column; gap: 30px; text-align: center; overflow-y: auto; padding-top: 50px; }
-    .photo-container, .note-container { flex: none; width: 100%; justify-content: center; }
-    .notebook-page { height: 35vh; }
+    .slide-item { flex-direction: column; gap: 20px; padding: 20px 0; }
+    .photo-container, .note-container { 
+        flex: none; width: 100%; justify-content: center; 
+    }
+    .photo-frame img { max-height: 35vh; }
+    .notebook-page { max-height: 25vh; width: 90%; }
+    .top-bar { padding-top: 20px; }
 }

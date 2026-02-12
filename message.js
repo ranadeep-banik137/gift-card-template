@@ -45,13 +45,24 @@ async function loadJourney(id) {
 }
 
 function updateUI() {
-    document.querySelectorAll('.slide-item').forEach((s, i) => {
+    const slides = document.querySelectorAll('.slide-item');
+    slides.forEach((s, i) => {
         s.classList.toggle('active', i === currentSlideIndex);
     });
 
-    const progress = ((currentSlideIndex + 1) / totalSlides) * 100;
-    document.getElementById('progressBar').style.width = `${progress}%`;
-    document.getElementById('redeemBtn').style.display = (currentSlideIndex === totalSlides - 1) ? "block" : "none";
+    // Targeting the buttons
+    const redeemBtn = document.getElementById('redeemBtn');
+    const nextBtn = document.querySelector('button[onclick="nextSlide()"]');
+
+    if (currentSlideIndex === totalSlides - 1) {
+        // Final slide: Show Redeem, Hide Next
+        redeemBtn.style.display = "block";
+        if (nextBtn) nextBtn.style.display = "none";
+    } else {
+        // Other slides: Hide Redeem, Show Next
+        redeemBtn.style.display = "none";
+        if (nextBtn) nextBtn.style.display = "block";
+    }
 }
 
 function nextSlide() {
