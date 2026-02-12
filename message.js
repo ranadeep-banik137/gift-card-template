@@ -7,9 +7,7 @@ let totalSlides = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
     const guestName = localStorage.getItem('guestName');
-    if (guestName) {
-        document.getElementById('guestNameDisplay').textContent = guestName;
-    }
+    if (guestName) document.getElementById('guestNameDisplay').textContent = guestName;
     
     const authId = localStorage.getItem('auth_session_id');
     await loadJourney(authId);
@@ -29,13 +27,13 @@ async function loadJourney(id) {
         slide.id = `slide-${index}`;
         
         slide.innerHTML = `
-            <div class="media-frame">
-                <div class="polaroid">
+            <div class="photo-container">
+                <div class="photo-frame">
                     <img src="${item.img_url}" alt="Memory">
                 </div>
             </div>
-            <div class="note-frame">
-                <div class="handwritten-note">
+            <div class="note-container">
+                <div class="notebook-page">
                     <h2>${item.img_note}</h2>
                 </div>
             </div>
@@ -43,23 +41,17 @@ async function loadJourney(id) {
         viewport.appendChild(slide);
     });
 
-    document.getElementById('navButtons').classList.remove('hidden');
     updateUI();
 }
 
 function updateUI() {
-    const slides = document.querySelectorAll('.slide-item');
-    slides.forEach((s, i) => {
+    document.querySelectorAll('.slide-item').forEach((s, i) => {
         s.classList.toggle('active', i === currentSlideIndex);
     });
 
-    // Update Progress Bar
     const progress = ((currentSlideIndex + 1) / totalSlides) * 100;
     document.getElementById('progressBar').style.width = `${progress}%`;
-
-    // Show/Hide Redeem Button
-    const redeemBtn = document.getElementById('redeemBtn');
-    redeemBtn.style.display = (currentSlideIndex === totalSlides - 1) ? "block" : "none";
+    document.getElementById('redeemBtn').style.display = (currentSlideIndex === totalSlides - 1) ? "block" : "none";
 }
 
 function nextSlide() {

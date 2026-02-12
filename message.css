@@ -1,138 +1,148 @@
 :root {
-    --gold: #d4af37;
-    --paper: #fffef0;
-    --shadow: rgba(0, 0, 0, 0.6);
+    /* Luxury Color Palette */
+    --royal-gold: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #b38728 70%, #fbf5b7 100%);
+    --accent-gold: #e6b94d;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
-body, html {
-    margin: 0; padding: 0; height: 100%; width: 100%;
+body, html { 
+    margin: 0; padding: 0; height: 100vh; width: 100vw; 
     overflow: hidden; font-family: 'Montserrat', sans-serif;
-    background: #0a0a0a;
+    background: #000; color: white;
 }
 
-/* Requirement 4: Vibrant Moving Background */
-.cinematic-bg {
-    position: fixed; inset: 0; z-index: -1;
+/* PLAYFUL LIQUID GRADIENT BACKGROUND */
+.mesh-gradient {
+    position: fixed; inset: 0; z-index: -2;
     background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a0f00);
     background-size: 400% 400%;
-    animation: meshGradient 15s ease infinite;
+    animation: liquidGradient 10s ease infinite;
 }
 
-@keyframes meshGradient {
+@keyframes liquidGradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-.app-wrapper {
+/* Subtle sparkle overlay for that "costly" feel */
+.mesh-gradient::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 50% 50%, #fff 1%, transparent 1%);
+    background-size: 80px 80px;
+    opacity: 0.03;
+}
+
+.cinematic-wrapper {
     height: 100vh; display: flex; flex-direction: column;
-    padding: 20px 4vw;
+    padding: 0 6vw; position: relative; z-index: 1;
 }
 
-/* Requirement 2 & 3: Header & Unique Cursive */
-.main-header { text-align: center; flex-shrink: 0; z-index: 10; }
-.congrats-title {
-    font-family: 'Parisienne', cursive;
-    font-size: clamp(2rem, 8vw, 4.5rem);
-    color: #fff; margin: 0;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.4);
+/* UNIQUE GREETING SECTION */
+.top-bar { padding: 40px 0 20px; text-align: left; }
+.welcome-tag { 
+    font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 10px;
+    color: var(--accent-gold); text-transform: uppercase; margin-bottom: 8px;
+    display: block; opacity: 0.8;
 }
-.gold-separator {
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 10px auto;
+.guest-title { 
+    font-family: 'Parisienne', cursive; font-size: clamp(2.5rem, 7vw, 5rem);
+    margin: 0; background: var(--royal-gold);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
 }
-.tagline { color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; font-weight: 600; }
 
-/* The Stage */
-.story-viewport {
-    flex: 1; position: relative; margin: 20px 0;
-    display: flex; align-items: center; justify-content: center;
-}
+/* MAIN STAGE WITH PLAYFUL TRANSITION */
+.main-stage { flex: 1; position: relative; perspective: 1500px; }
 
 .slide-item {
     position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center; gap: 40px;
-    opacity: 0; visibility: hidden; transition: 1s ease-in-out;
-}
-.slide-item.active { opacity: 1; visibility: visible; }
-
-/* Requirement 1: Polaroid Frame & No Black Background */
-.media-frame {
-    flex: 1.2; max-height: 55vh;
-    display: flex; justify-content: center; align-items: center;
-    transform: rotate(-2deg); /* Requirement 3: Unstraighten */
+    display: flex; align-items: center; justify-content: center;
+    gap: 6vw; opacity: 0; visibility: hidden; 
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transform: rotateX(10deg) translateY(50px) scale(0.9);
 }
 
-.polaroid {
-    background: white; padding: 12px 12px 40px 12px;
-    box-shadow: 0 15px 45px var(--shadow);
-    border: 1px solid #ddd;
-    max-width: 100%; max-height: 100%;
-    overflow: hidden;
+.slide-item.active { 
+    opacity: 1; visibility: visible; 
+    transform: rotateX(0deg) translateY(0) scale(1); 
 }
 
-.polaroid img {
-    display: block; width: auto; height: auto;
-    max-width: 100%; max-height: 50vh;
-    object-fit: contain;
+/* HIGH-END PHOTO CONTAINER */
+.photo-container { flex: 1; display: flex; justify-content: flex-end; }
+.photo-frame {
+    background: var(--glass-bg);
+    padding: 15px; border: 1px solid var(--glass-border);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 4px; position: relative;
 }
 
-/* Requirement 5: Automatic Cinematic Zoom */
-.slide-item.active .polaroid img {
-    animation: cinematicZoom 10s ease-in-out infinite alternate;
+.photo-frame::after { /* Luxury Corner Accents */
+    content: ''; position: absolute; top: -5px; right: -5px; 
+    width: 20px; height: 20px; border-top: 2px solid var(--accent-gold); border-right: 2px solid var(--accent-gold);
 }
 
-@keyframes cinematicZoom {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
+.photo-frame img {
+    display: block; width: auto; max-width: 100%; max-height: 55vh;
+    filter: contrast(105%);
 }
 
-/* Requirement 2: Scrollable Note (No Overlap) */
-.note-frame {
-    flex: 1; max-height: 50vh;
-    display: flex; justify-content: center;
-    transform: rotate(2deg); /* Requirement 3: Unstraighten */
+/* THE SCROLLABLE ROYAL NOTEBOOK (Glassmorphism) */
+.note-container { flex: 1; display: flex; justify-content: flex-start; }
+.notebook-page {
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(25px);
+    width: 100%; max-width: 450px;
+    height: 50vh; padding: 40px;
+    border: 1px solid var(--glass-border);
+    border-left: 5px solid var(--accent-gold);
+    box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+    overflow-y: auto;
+    /* Elegant Gold Lined Pattern */
+    background-image: linear-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+    background-size: 100% 3rem;
 }
 
-.handwritten-note {
-    background: var(--paper);
-    padding: 30px; width: 100%; max-width: 380px;
-    max-height: 100%; overflow-y: auto;
-    box-shadow: 15px 15px 35px var(--shadow);
-    border-radius: 2px;
-    background-image: linear-gradient(#91ced4 1px, transparent 1px);
-    background-size: 100% 2.5rem;
-}
-
-.handwritten-note h2 {
+.notebook-page h2 {
     font-family: 'Cedarville Cursive', cursive;
-    font-size: 1.5rem; line-height: 2.5rem; color: #2c3e50; margin: 0;
+    font-size: 1.6rem; color: #f4f4f4; line-height: 3rem; margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-/* Nav & Progress */
-.timeline-container { height: 3px; background: rgba(255,255,255,0.1); border-radius: 5px; margin: 10px 0; }
-.progress-fill { height: 100%; background: var(--gold); width: 0%; transition: 0.6s; box-shadow: 0 0 10px var(--gold); }
+/* Modern Scrollbar */
+.notebook-page::-webkit-scrollbar { width: 3px; }
+.notebook-page::-webkit-scrollbar-thumb { background: var(--royal-gold); border-radius: 10px; }
 
-.navigation-footer { flex-shrink: 0; padding: 20px 0; }
-.nav-wrapper { display: flex; justify-content: center; align-items: center; gap: 30px; }
-.nav-ctrl {
-    background: none; border: 1px solid var(--gold); color: var(--gold);
-    padding: 10px 25px; cursor: pointer; letter-spacing: 2px; font-weight: 600;
-}
-.redeem-btn {
-    background: var(--gold); color: #000; border: none; padding: 15px 40px;
-    font-weight: 800; cursor: pointer; border-radius: 50px;
-    box-shadow: 0 0 20px rgba(212,175,55,0.4);
-}
+/* NAVIGATION CONTROLS */
+.bottom-bar { padding: 40px 0; }
+.controls-wrapper { display: flex; justify-content: space-between; align-items: center; }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .slide-item { flex-direction: column; gap: 15px; }
-    .media-frame { max-height: 35vh; order: 1; transform: rotate(0); }
-    .note-frame { max-height: 30vh; order: 2; transform: rotate(0); }
-    .polaroid { padding: 8px 8px 25px 8px; }
-    .congrats-title { font-size: 2.5rem; }
+.nav-arrow {
+    background: none; border: none; color: white;
+    font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 5px;
+    cursor: pointer; opacity: 0.5; transition: 0.4s;
+}
+.nav-arrow:hover { opacity: 1; color: var(--accent-gold); transform: translateX(5px); }
+
+.claim-btn {
+    background: var(--royal-gold); color: #000; border: none;
+    padding: 16px 50px; font-weight: 800; border-radius: 0;
+    font-family: 'Cinzel', serif; letter-spacing: 3px; cursor: pointer;
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+    transition: 0.4s;
+}
+.claim-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(212, 175, 55, 0.5); }
+
+/* PROGRESS BAR */
+.progress-track { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.05); }
+.progress-glow { height: 100%; background: var(--royal-gold); transition: width 0.8s ease; box-shadow: 0 0 15px var(--accent-gold); }
+
+@media (max-width: 900px) {
+    .slide-item { flex-direction: column; gap: 30px; text-align: center; overflow-y: auto; padding-top: 50px; }
+    .photo-container, .note-container { flex: none; width: 100%; justify-content: center; }
+    .notebook-page { height: 35vh; }
 }
