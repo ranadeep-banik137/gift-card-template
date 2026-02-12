@@ -54,11 +54,11 @@ async function requestOTP() {
         const otp = Math.floor(100000 + Math.random() * 900000);
         await supabaseClient.from("gift_otps").upsert({ email, otp, is_claimed: false, updated_at: new Date().toISOString() });
 
-        await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
+        /*await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
             email: email,
             otp_code: otp,
             customer_name: user.customer_name
-        });
+        });*/
 
         localStorage.setItem("guestName", user.customer_name);
         
@@ -84,7 +84,9 @@ async function verifyAndRedirect() {
         .single();
 
     if (data) {
-        window.location.href = "payout.html";
+        localStorage.setItem("otp_validated", "true");
+		localStorage.setItem("auth_session_id", data.id); // Storing the UUID for the next page
+		window.location.href = "message.html"; // Change redirection to message.html
     } else {
         alert("Verification failed. Please check your code.");
     }

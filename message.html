@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Special Message | Royal Invitation</title>
+    <link rel="stylesheet" href="message.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:italic,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="cinematic-container">
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="app-wrapper">
+        <header class="main-header">
+            <h1 class="brand-title">FOR <span>YOU</span> GUEST</h1>
+            <div class="line-separator"></div>
+        </header>
+
+        <main id="messageContainer" class="message-container">
+            <div id="pageLoading">
+                <div class="shimmer-loader"></div>
+            </div>
+        </main>
+
+        <div class="action-footer">
+            <button class="gold-action-btn" onclick="navigateToPayout()">Redeem Your Gift</button>
+            <p class="legal-footer">© 2026 RANADEEP'S ARTCRAFTS</p>
+        </div>
+    </div>
+
+    <script src="message.js"></script>
+</body>
+</html>
