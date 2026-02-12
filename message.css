@@ -1,75 +1,138 @@
 :root {
     --gold: #d4af37;
-    --border: rgba(212, 175, 55, 0.3);
+    --paper: #fffef0;
+    --shadow: rgba(0, 0, 0, 0.6);
 }
 
-body, html { 
-    height: 100%; margin: 0; overflow: hidden; font-family: 'Montserrat', sans-serif;
-    /* Moving Mesh Gradient */
-    background: linear-gradient(45deg, #000000, #1a1a1a, #0f0f0f, #141108);
+* { box-sizing: border-box; }
+
+body, html {
+    margin: 0; padding: 0; height: 100%; width: 100%;
+    overflow: hidden; font-family: 'Montserrat', sans-serif;
+    background: #0a0a0a;
+}
+
+/* Requirement 4: Vibrant Moving Background */
+.cinematic-bg {
+    position: fixed; inset: 0; z-index: -1;
+    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a0f00);
     background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    animation: meshGradient 15s ease infinite;
 }
 
-@keyframes gradientBG {
+@keyframes meshGradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
 .app-wrapper {
-    height: 100vh; display: flex; flex-direction: column; padding: 20px 5vw; box-sizing: border-box;
+    height: 100vh; display: flex; flex-direction: column;
+    padding: 20px 4vw;
 }
 
-.main-header { text-align: center; flex-shrink: 0; }
-.brand-title { font-family: 'Cinzel', serif; letter-spacing: 4px; color: #fff; margin: 0; font-size: 1.8rem; }
-.guest-welcome { color: var(--gold); font-size: 0.85rem; letter-spacing: 2px; margin-top: 10px; }
-.line-separator { width: 100px; height: 1px; background: var(--gold); margin: 15px auto; }
+/* Requirement 2 & 3: Header & Unique Cursive */
+.main-header { text-align: center; flex-shrink: 0; z-index: 10; }
+.congrats-title {
+    font-family: 'Parisienne', cursive;
+    font-size: clamp(2rem, 8vw, 4.5rem);
+    color: #fff; margin: 0;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+.gold-separator {
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 10px auto;
+}
+.tagline { color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; font-weight: 600; }
 
 /* The Stage */
-.story-viewport { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; min-height: 0; }
+.story-viewport {
+    flex: 1; position: relative; margin: 20px 0;
+    display: flex; align-items: center; justify-content: center;
+}
 
 .slide-item {
-    position: absolute; inset: 0; display: flex; align-items: center; gap: 40px;
-    opacity: 0; visibility: hidden; transition: opacity 0.8s ease;
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center; gap: 40px;
+    opacity: 0; visibility: hidden; transition: 1s ease-in-out;
 }
 .slide-item.active { opacity: 1; visibility: visible; }
 
-/* Image Container & Zoom */
-.slide-img {
-    flex: 1.2; height: 50vh; overflow: hidden; border: 1px solid var(--border);
-    background: #000; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+/* Requirement 1: Polaroid Frame & No Black Background */
+.media-frame {
+    flex: 1.2; max-height: 55vh;
+    display: flex; justify-content: center; align-items: center;
+    transform: rotate(-2deg); /* Requirement 3: Unstraighten */
 }
 
-.slide-img img { width: 100%; height: 100%; object-fit: contain; }
-
-/* Ken Burns Zoom */
-.slide-item.active .slide-img img {
-    animation: zoomEffect 10s ease-out forwards;
+.polaroid {
+    background: white; padding: 12px 12px 40px 12px;
+    box-shadow: 0 15px 45px var(--shadow);
+    border: 1px solid #ddd;
+    max-width: 100%; max-height: 100%;
+    overflow: hidden;
 }
-@keyframes zoomEffect { from { transform: scale(1); } to { transform: scale(1.15); } }
 
-/* Handwritten Note Box */
-.note-container { flex: 1; display: flex; justify-content: center; }
+.polaroid img {
+    display: block; width: auto; height: auto;
+    max-width: 100%; max-height: 50vh;
+    object-fit: contain;
+}
+
+/* Requirement 5: Automatic Cinematic Zoom */
+.slide-item.active .polaroid img {
+    animation: cinematicZoom 10s ease-in-out infinite alternate;
+}
+
+@keyframes cinematicZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+/* Requirement 2: Scrollable Note (No Overlap) */
+.note-frame {
+    flex: 1; max-height: 50vh;
+    display: flex; justify-content: center;
+    transform: rotate(2deg); /* Requirement 3: Unstraighten */
+}
+
 .handwritten-note {
-    background: #fffef0; padding: 30px; width: 100%; max-width: 350px;
-    box-shadow: 8px 8px 20px rgba(0,0,0,0.4); border-radius: 2px;
+    background: var(--paper);
+    padding: 30px; width: 100%; max-width: 380px;
+    max-height: 100%; overflow-y: auto;
+    box-shadow: 15px 15px 35px var(--shadow);
+    border-radius: 2px;
     background-image: linear-gradient(#91ced4 1px, transparent 1px);
-    background-size: 100% 2.5rem; line-height: 2.5rem;
-    transform: rotate(1deg);
+    background-size: 100% 2.5rem;
 }
 
-.slide-text h2 { font-family: 'Cedarville Cursive', cursive; color: #2c3e50; font-size: 1.6rem; margin: 0; }
+.handwritten-note h2 {
+    font-family: 'Cedarville Cursive', cursive;
+    font-size: 1.5rem; line-height: 2.5rem; color: #2c3e50; margin: 0;
+}
 
-/* Navigation */
-.cinematic-footer { flex-shrink: 0; padding: 20px 0; }
-.nav-controls { display: flex; justify-content: center; align-items: center; gap: 20px; }
-.nav-btn { background: none; border: 1px solid var(--gold); color: var(--gold); padding: 10px 25px; cursor: pointer; }
-.gold-action-btn { background: var(--gold); color: #000; border: none; padding: 12px 30px; font-weight: 700; cursor: pointer; }
+/* Nav & Progress */
+.timeline-container { height: 3px; background: rgba(255,255,255,0.1); border-radius: 5px; margin: 10px 0; }
+.progress-fill { height: 100%; background: var(--gold); width: 0%; transition: 0.6s; box-shadow: 0 0 10px var(--gold); }
 
-/* Mobile View */
+.navigation-footer { flex-shrink: 0; padding: 20px 0; }
+.nav-wrapper { display: flex; justify-content: center; align-items: center; gap: 30px; }
+.nav-ctrl {
+    background: none; border: 1px solid var(--gold); color: var(--gold);
+    padding: 10px 25px; cursor: pointer; letter-spacing: 2px; font-weight: 600;
+}
+.redeem-btn {
+    background: var(--gold); color: #000; border: none; padding: 15px 40px;
+    font-weight: 800; cursor: pointer; border-radius: 50px;
+    box-shadow: 0 0 20px rgba(212,175,55,0.4);
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
-    .slide-item { flex-direction: column; gap: 20px; }
-    .slide-img { height: 35vh; width: 100%; }
-    .handwritten-note { padding: 20px; line-height: 2.2rem; background-size: 100% 2.2rem; }
+    .slide-item { flex-direction: column; gap: 15px; }
+    .media-frame { max-height: 35vh; order: 1; transform: rotate(0); }
+    .note-frame { max-height: 30vh; order: 2; transform: rotate(0); }
+    .polaroid { padding: 8px 8px 25px 8px; }
+    .congrats-title { font-size: 2.5rem; }
 }

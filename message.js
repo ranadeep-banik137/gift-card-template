@@ -7,7 +7,9 @@ let totalSlides = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
     const guestName = localStorage.getItem('guestName');
-    if (guestName) document.getElementById('guestNameDisplay').textContent = guestName.toUpperCase();
+    if (guestName) {
+        document.getElementById('guestNameDisplay').textContent = guestName;
+    }
     
     const authId = localStorage.getItem('auth_session_id');
     await loadJourney(authId);
@@ -25,11 +27,16 @@ async function loadJourney(id) {
         const slide = document.createElement('div');
         slide.className = `slide-item ${index === 0 ? 'active' : ''}`;
         slide.id = `slide-${index}`;
+        
         slide.innerHTML = `
-            <div class="slide-img"><img src="${item.img_url}"></div>
-            <div class="note-container">
+            <div class="media-frame">
+                <div class="polaroid">
+                    <img src="${item.img_url}" alt="Memory">
+                </div>
+            </div>
+            <div class="note-frame">
                 <div class="handwritten-note">
-                    <div class="slide-text"><h2>${item.img_note}</h2></div>
+                    <h2>${item.img_note}</h2>
                 </div>
             </div>
         `;
@@ -41,13 +48,18 @@ async function loadJourney(id) {
 }
 
 function updateUI() {
-    document.querySelectorAll('.slide-item').forEach((s, i) => {
-        s.classList.remove('active');
-        if(i === currentSlideIndex) s.classList.add('active');
+    const slides = document.querySelectorAll('.slide-item');
+    slides.forEach((s, i) => {
+        s.classList.toggle('active', i === currentSlideIndex);
     });
 
-    document.getElementById('progressBar').style.width = `${((currentSlideIndex + 1) / totalSlides) * 100}%`;
-    document.getElementById('redeemBtn').style.display = (currentSlideIndex === totalSlides - 1) ? "block" : "none";
+    // Update Progress Bar
+    const progress = ((currentSlideIndex + 1) / totalSlides) * 100;
+    document.getElementById('progressBar').style.width = `${progress}%`;
+
+    // Show/Hide Redeem Button
+    const redeemBtn = document.getElementById('redeemBtn');
+    redeemBtn.style.display = (currentSlideIndex === totalSlides - 1) ? "block" : "none";
 }
 
 function nextSlide() {
@@ -64,4 +76,6 @@ function prevSlide() {
     }
 }
 
-function navigateToPayout() { window.location.href = "payout.html"; }
+function navigateToPayout() {
+    window.location.href = "payout.html";
+}

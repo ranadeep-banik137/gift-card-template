@@ -3,31 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Our Journey | Royal Invitation</title>
+    <title>A Royal Gift | For You</title>
     <link rel="stylesheet" href="message.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Cedarville+Cursive&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Parisienne&family=Montserrat:wght@300;400;600&family=Cedarville+Cursive&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+    <div class="cinematic-bg"></div>
+    
     <div class="app-wrapper">
         <header class="main-header">
-            <h1 class="brand-title">CONGRATULATIONS <span id="guestNameDisplay"></span></h1>
-            <div class="line-separator"></div>
-            <p class="guest-welcome">We have accumulated some special moments for you</p>
+            <div class="congrats-container">
+                <h1 class="congrats-title">Congratulations <span id="guestNameDisplay"></span></h1>
+                <div class="gold-separator"></div>
+            </div>
+            <p class="tagline">EVERY MOMENT TELLS A STORY</p>
         </header>
 
-        <div class="progress-container">
-            <div id="progressBar" class="progress-bar"></div>
+        <div class="timeline-container">
+            <div id="progressBar" class="progress-fill"></div>
         </div>
 
         <main id="storyViewport" class="story-viewport">
             </main>
 
-        <footer class="cinematic-footer">
-            <div id="navButtons" class="nav-controls hidden">
-                <button class="nav-btn" onclick="prevSlide()">PREV</button>
-                <button class="gold-action-btn" id="redeemBtn" onclick="navigateToPayout()" style="display:none;">REDEEM GIFT</button>
-                <button class="nav-btn" onclick="nextSlide()">NEXT</button>
+        <footer class="navigation-footer">
+            <div id="navButtons" class="nav-wrapper hidden">
+                <button class="nav-ctrl prev" onclick="prevSlide()">BACK</button>
+                <button class="redeem-btn" id="redeemBtn" onclick="navigateToPayout()">CLAIM YOUR GIFT</button>
+                <button class="nav-ctrl next" onclick="nextSlide()">NEXT</button>
             </div>
         </footer>
     </div>
