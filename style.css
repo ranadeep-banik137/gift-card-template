@@ -1,218 +1,122 @@
-/* GLOBAL */
+:root {
+    --gold: #c5a059;
+    --white: #ffffff;
+    --glass: rgba(0, 0, 0, 0.75);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
+    background-color: #000;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
     height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
     overflow: hidden;
-    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.hidden { display: none; }
+/* BACKGROUND EXPERIENCE */
+.cinematic-container {
+    position: fixed; inset: 0; z-index: -1;
+}
+.ambient-bg {
+    width: 100%; height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.4) scale(1.05);
+    animation: slowZoom 20s infinite alternate linear;
+}
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.15); } }
 
-/* BACKGROUND */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background:
-      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-      url("https://png.pngtree.com/background/20250102/original/pngtree-a-romantic-white-and-gold-wedding-ceremony-with-delicate-floral-arrangements-picture-image_16015177.jpg") center/cover no-repeat;
-    z-index: -2;
+.video-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle, transparent 20%, #000 100%);
+    z-index: 1;
 }
 
-/* PARTICLES */
-.particles {
-    position: fixed;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.15) 2px, transparent 2px);
-    background-size: 90px 90px;
-    animation: drift 60s linear infinite;
-    z-index: -1;
-}
-
-@keyframes drift {
-    to { background-position: 1000px 1000px; }
-}
-
-/* CENTER */
-.center-stage {
-    height: 100%;
+/* WRAPPER - PREVENTS OVER-ZOOM */
+.app-wrapper {
+    width: 90%;
+    max-width: 450px;
+    height: 90vh;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-}
-
-/* GIFT */
-.gift-container {
-    width: 180px;
-    height: 160px;
-    position: relative;
-    cursor: pointer;
-}
-
-.gift-lid {
-    height: 50px;
-    background: crimson;
-    transition: transform 1s ease;
-    transform-origin: bottom;
-}
-
-.gift-box-body {
-    height: 110px;
-    background: darkred;
-}
-
-.gift-container.open .gift-lid {
-    transform: rotateX(-120deg);
-}
-
-.gift-light {
-    position: absolute;
-    inset: -40px;
-    background: radial-gradient(circle, gold 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 1s;
-}
-
-.gift-container.open .gift-light {
-    opacity: 1;
-}
-
-/* TEXT */
-.headline {
-    font-family: 'Playfair Display', serif;
-    font-size: 42px;
+    z-index: 10;
     text-align: center;
 }
 
-.cinematic-text .line {
-    display: block;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: textReveal 1.2s ease forwards;
+.brand-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    letter-spacing: 5px;
 }
+.brand-title span { color: var(--gold); }
 
-.cinematic-text .line:nth-child(2) {
-    animation-delay: .6s;
+/* STAGES */
+.stage {
+    width: 100%;
+    transition: all 0.6s ease;
 }
+.hidden { display: none !important; opacity: 0; }
 
-@keyframes textReveal {
-    to { opacity: 1; transform: translateY(0); }
+/* PREMIUM ENVELOPE */
+.envelope-container {
+    width: 260px; height: 160px;
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px;
 }
-
-.subtext {
-    opacity: .8;
+.envelope {
+    width: 100%; height: 100%;
+    background: #e0e0e0;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
+.flap {
+    position: absolute; top: 0; width: 0; height: 0;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-top: 90px solid var(--gold);
+    transform-origin: top;
+    transition: 0.6s ease;
+    z-index: 5;
+}
+.envelope-container:hover .flap { transform: rotateX(45deg); }
+.open .flap { transform: rotateX(180deg); z-index: 0; }
 
 /* AUTH CARD */
-.auth-card {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 380px;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(25px);
+.premium-card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
     padding: 30px;
-    border-radius: 24px;
-}
-
-.auth-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 22px;
-    cursor: pointer;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    border-radius: 4px;
 }
 
 input {
     width: 100%;
-    padding: 14px;
-    margin: 15px 0;
-    border-radius: 10px;
-    border: none;
-}
-
-.primary-btn, .secondary-btn {
-    padding: 12px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-}
-
-.primary-btn {
-    background: gold;
-}
-
-.secondary-btn {
-    background: rgba(255,255,255,.2);
+    padding: 15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
     color: white;
+    margin: 15px 0;
+    text-align: center;
 }
 
-/* ROSES */
-.rose-container {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-}
-
-.rose {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    background: url("assets/rose-petal.png") center/cover no-repeat;
-    animation: petalFall linear forwards;
-}
-
-@keyframes petalFall {
-    to {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-/* CONFETTI */
-#confettiCanvas {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-}
-
-/* Sending OTP state */
-.hidden {
-    display: none;
-}
-
-.sending-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 14px;
-    font-size: 14px;
-    opacity: 0.9;
-}
-
-.mini-loader {
-    width: 18px;
-    height: 18px;
-    border: 3px solid rgba(255,255,255,0.3);
-    border-top: 3px solid white;
-    border-radius: 50%;
-    animation: spinMini 1s linear infinite;
-}
-
-@keyframes spinMini {
-    to { transform: rotate(360deg); }
-}
-
-.primary-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.gold-action-btn {
+    width: 100%;
+    background: var(--gold);
+    border: none;
+    padding: 15px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
 }

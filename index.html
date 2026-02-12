@@ -1,78 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Wedding Gift Awaits</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Royal Invitation</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
-
 <body>
 
-<div class="particles"></div>
-<div class="rose-container" id="roseContainer"></div>
-<canvas id="confettiCanvas"></canvas>
-
-<div class="center-stage">
-
-    <div class="gift-container" onclick="openGift()">
-        <div class="gift-lid"></div>
-        <div class="gift-box-body"></div>
-        <div class="gift-light"></div>
+    <div class="cinematic-container">
+        <div class="video-overlay"></div>
+        <div class="ambient-bg"></div>
     </div>
 
-    <h1 class="headline cinematic-text">
-        <span class="line">Dear</span>
-        <span class="line guest-name" id="guestName">Guest</span>
-    </h1>
+    <div class="app-wrapper">
+        <header class="main-header" id="mainHeader">
+            <h1 class="brand-title">ETERNAL <span>&</span> GRACE</h1>
+            <div class="line-separator"></div>
+            <p class="guest-welcome">For our cherished guest</p>
+        </header>
 
-    <p class="subtext">Tap the gift to reveal your blessing 💍</p>
+        <div class="content-body">
+            
+            <div id="giftSection" class="stage active">
+                <div class="envelope-container" onclick="handleEnvelopeOpen()">
+                    <div class="envelope">
+                        <div class="flap"></div>
+                        <div class="letter">
+                            <div class="letter-inner">
+                                <span>Exclusive Gift Inside</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="tap-hint">Tap the seal to reveal</p>
+            </div>
 
-</div>
+            <div id="authSection" class="stage hidden">
+                <div class="premium-card">
+                    <h3>Verify Invitation</h3>
+                    <div id="emailInputGroup">
+                        <input type="email" id="email" placeholder="Enter guest email" autocomplete="off">
+                        <button class="gold-action-btn" id="sendBtn" onclick="requestOTP()">Request Access</button>
+                    </div>
 
-<!-- AUTH CARD -->
-<div class="auth-card hidden" id="authCard">
+                    <div id="otpInputGroup" class="hidden">
+                        <p class="otp-notice">Verification code sent to email.</p>
+                        <input type="text" id="otp" placeholder="6-Digit Code" maxlength="6">
+                        <button class="gold-action-btn" onclick="verifyAndRedirect()">Unlock Voucher</button>
+                        <button class="back-text" onclick="resetUI()">Change Email</button>
+                    </div>
 
-    <div class="auth-header">
-        <h2 id="authTitle">Email Verification</h2>
-        <button class="close-btn" onclick="closeAuth()">×</button>
-    </div>
-
-    <div class="auth-body">
-
-        <div id="stepEmail">
-			<input type="email" id="email" placeholder="Enter your email">
-
-			<button class="primary-btn" id="sendOtpBtn" onclick="sendOTP()">
-				Send OTP
-			</button>
-
-			<!-- FORCE HIDDEN VIA INLINE STYLE -->
-			<div class="sending-row" id="sendingState" style="display:none;">
-				<div class="mini-loader"></div>
-				<span>Sending OTP to your email…</span>
-			</div>
-		</div>
-
-        <div id="stepOTP" class="hidden">
-            <input type="text" id="otp" placeholder="Enter OTP">
-            <div class="button-row">
-                <button class="secondary-btn" onclick="goBack()">Back</button>
-                <button class="primary-btn" onclick="verifyOTP()">Verify</button>
+                    <div id="loading" class="hidden">
+                        <div class="gold-loader"></div>
+                        <p>Processing...</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="auth-message" id="authMessage"></div>
-
+        <footer class="legal-footer">
+            2026 • ROYAL WEDDING CELEBRATION
+        </footer>
     </div>
-</div>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
