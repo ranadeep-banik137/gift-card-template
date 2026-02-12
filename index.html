@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Royal Invitation</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
@@ -13,57 +13,72 @@
 
     <div class="cinematic-container">
         <div class="video-overlay"></div>
-        <div class="ambient-bg"></div>
+        <div class="slideshow">
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1920&q=80')"></div>
+        </div>
     </div>
 
     <div class="app-wrapper">
         <header class="main-header" id="mainHeader">
             <h1 class="brand-title">ETERNAL <span>&</span> GRACE</h1>
             <div class="line-separator"></div>
-            <p class="guest-welcome">For our cherished guest</p>
+            <p class="guest-welcome">Exclusive Access Portal</p>
         </header>
 
         <div class="content-body">
-            
             <div id="giftSection" class="stage active">
                 <div class="envelope-container" onclick="handleEnvelopeOpen()">
                     <div class="envelope">
                         <div class="flap"></div>
                         <div class="letter">
                             <div class="letter-inner">
-                                <span>Exclusive Gift Inside</span>
+                                <span>A Gift for You</span>
                             </div>
                         </div>
                     </div>
+                    <div class="wax-seal-detail"></div>
                 </div>
-                <p class="tap-hint">Tap the seal to reveal</p>
+                <p class="tap-hint">Unlock Your Invitation</p>
             </div>
 
             <div id="authSection" class="stage hidden">
                 <div class="premium-card">
-                    <h3>Verify Invitation</h3>
-                    <div id="emailInputGroup">
-                        <input type="email" id="email" placeholder="Enter guest email" autocomplete="off">
-                        <button class="gold-action-btn" id="sendBtn" onclick="requestOTP()">Request Access</button>
+                    <div class="card-header">
+                        <h3>Guest Verification</h3>
+                        <p class="subtitle">Please enter your registered email to unlock your exclusive wedding voucher.</p>
                     </div>
 
-                    <div id="otpInputGroup" class="hidden">
-                        <p class="otp-notice">Verification code sent to email.</p>
-                        <input type="text" id="otp" placeholder="6-Digit Code" maxlength="6">
+                    <div id="emailInputGroup" class="form-container">
+                        <div class="input-wrapper">
+                            <label>Email Address</label>
+                            <input type="email" id="email" placeholder="e.g. guest@example.com" autocomplete="off">
+                        </div>
+                        <button class="gold-action-btn" id="sendBtn" onclick="requestOTP()">Request Access Code</button>
+                    </div>
+
+                    <div id="otpInputGroup" class="form-container hidden">
+                        <p class="otp-status-msg">We've sent a 6-digit code to your inbox.</p>
+                        <div class="input-wrapper">
+                            <label>Verification Code</label>
+                            <input type="text" id="otp" placeholder="0 0 0 0 0 0" maxlength="6" class="otp-input">
+                        </div>
                         <button class="gold-action-btn" onclick="verifyAndRedirect()">Unlock Voucher</button>
-                        <button class="back-text" onclick="resetUI()">Change Email</button>
+                        <button class="back-text-link" onclick="resetUI()">Use a different email</button>
                     </div>
 
                     <div id="loading" class="hidden">
-                        <div class="gold-loader"></div>
-                        <p>Processing...</p>
+                        <div class="shimmer-loader"></div>
+                        <p class="loading-text">Authenticating...</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <footer class="legal-footer">
-            2026 • ROYAL WEDDING CELEBRATION
+            EST. 2026 • ROYAL WEDDING CELEBRATION
         </footer>
     </div>
 

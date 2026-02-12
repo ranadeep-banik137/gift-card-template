@@ -1,50 +1,64 @@
+// SUPABASE & EMAILJS (Keeping your backend intact)
 const SUPABASE_URL = "https://wivamsbwvojjzvvbaeet.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_rs2u88McT9Exv4k-rffQaQ__PcIVG2M";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 emailjs.init("PrExvx8nTn9N3T6oH");
 
+// --- BACKGROUND SLIDESHOW LOGIC ---
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+
+function nextSlide() {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+}
+setInterval(nextSlide, 6000); // Change image every 6 seconds
+
+// --- UI TRANSITION ---
 function handleEnvelopeOpen() {
     const env = document.querySelector('.envelope-container');
     env.classList.add('open');
     
     setTimeout(() => {
         document.getElementById('giftSection').style.opacity = "0";
+        document.getElementById('giftSection').style.transform = "scale(0.9)";
+        
         setTimeout(() => {
             document.getElementById('giftSection').classList.add('hidden');
             const auth = document.getElementById('authSection');
             auth.classList.remove('hidden');
-            setTimeout(() => auth.style.opacity = "1", 50);
+            // Force reflow for fade in
+            auth.offsetHeight; 
+            auth.style.opacity = "1";
         }, 600);
     }, 800);
 }
 
+// --- AUTH LOGIC (Your existing backend flow) ---
 async function requestOTP() {
     const email = document.getElementById('email').value.trim();
-    if(!email) return alert("Please enter your email");
+    if(!email) return alert("Please enter your guest email.");
 
     toggleLoading(true);
 
     try {
-        // 1. Fetch User (Keeps your backend logic)
         const { data: user, error } = await supabaseClient
             .from("wedding_otps")
             .select("customer_name")
             .eq("email", email)
             .single();
 
-        if (error || !user) throw new Error("Guest email not verified.");
+        if (error || !user) throw new Error("Email not recognized. Please check your invitation.");
 
-        // 2. Generate and Update OTP
         const otp = Math.floor(100000 + Math.random() * 900000);
         await supabaseClient.from("wedding_otps").upsert({ email, otp, is_claimed: false });
 
-        // 3. Email via EmailJS
-        /*await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
+        await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
             email: email,
             otp_code: otp,
             customer_name: user.customer_name
-        });*/
+        });
 
         localStorage.setItem("guestName", user.customer_name);
         
@@ -72,7 +86,7 @@ async function verifyAndRedirect() {
     if (data) {
         window.location.href = "payout.html";
     } else {
-        alert("Incorrect Code.");
+        alert("Verification failed. Please check your code.");
     }
 }
 
