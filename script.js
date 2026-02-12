@@ -44,7 +44,7 @@ async function requestOTP() {
 
     try {
         const { data: user, error } = await supabaseClient
-            .from("wedding_otps")
+            .from("gift_otps")
             .select("customer_name")
             .eq("email", email)
             .single();
@@ -52,7 +52,7 @@ async function requestOTP() {
         if (error || !user) throw new Error("Email not recognized. Please check your invitation.");
 
         const otp = Math.floor(100000 + Math.random() * 900000);
-        await supabaseClient.from("wedding_otps").upsert({ email, otp, is_claimed: false });
+        await supabaseClient.from("gift_otps").upsert({ email, otp, is_claimed: false, updated_at: new Date().toISOString() });
 
         await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
             email: email,
@@ -77,7 +77,7 @@ async function verifyAndRedirect() {
     const otp = document.getElementById('otp').value;
 
     const { data } = await supabaseClient
-        .from("wedding_otps")
+        .from("gift_otps")
         .select("*")
         .eq("email", email)
         .eq("otp", otp)
