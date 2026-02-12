@@ -1,60 +1,93 @@
 const SUPABASE_URL = "https://wivamsbwvojjzvvbaeet.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_rs2u88McT9Exv4k-rffQaQ__PcIVG2M"; // Using your key
+const SUPABASE_ANON_KEY = "sb_publishable_rs2u88McT9Exv4k-rffQaQ__PcIVG2M";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Restriction Check
-    const authId = localStorage.getItem('auth_session_id');
-    const isValidated = localStorage.getItem('otp_validated');
+let currentSlideIndex = 0;
+let totalSlides = 0;
+let autoCycle;
 
-    if (!authId || isValidated !== 'true') {
+document.addEventListener('DOMContentLoaded', async () => {
+    const authId = localStorage.getItem('auth_session_id');
+    const guestName = localStorage.getItem('guestName');
+
+    if (!authId || localStorage.getItem('otp_validated') !== 'true') {
         window.location.href = "index.html";
         return;
     }
 
-    await fetchMessages(authId);
+    const nameSpan = document.getElementById('guestNameDisplay');
+    if (nameSpan && guestName) {
+        nameSpan.textContent = guestName.toUpperCase();
+    }
+
+    await loadJourney(authId);
 });
 
-async function fetchMessages(userId) {
-    const container = document.getElementById('messageContainer');
+async function loadJourney(id) {
+    const { data, error } = await supabaseClient
+        .from('img_notes')
+        .select('*')
+        .eq('id', id);
 
-    try {
-        const { data, error } = await supabaseClient
-            .from('img_notes')
-            .select('*')
-            .eq('id', userId);
-
-        if (error) throw error;
-
-        container.innerHTML = ''; // Clear loader
-
-        if (data && data.length > 0) {
-            data.forEach((item, index) => {
-                const section = document.createElement('div');
-                section.className = 'message-item';
-                
-                section.innerHTML = `
-                    <div class="img-frame">
-                        <img src="${item.img_url}" alt="Memories">
-                    </div>
-                    <div class="text-content">
-                        <p class="note-text">"${item.img_note}"</p>
-                    </div>
-                `;
-                container.appendChild(section);
-                
-                // Trigger reveal animation
-                setTimeout(() => section.classList.add('reveal'), 100 * index);
-            });
-        } else {
-            container.innerHTML = `<p style="text-align:center">Welcome! We are so glad to have you with us.</p>`;
-        }
-    } catch (err) {
-        console.error("Fetch error:", err);
-        container.innerHTML = `<p style="text-align:center">Error loading message. Please proceed to your gift.</p>`;
+    if (error || !data.length) {
+        window.location.href = "payout.html";
+        return;
     }
+
+    totalSlides = data.length;
+    const viewport = document.getElementById('storyViewport');
+    viewport.innerHTML = ''; 
+
+    data.forEach((item, index) => {
+		const slide = document.createElement('div');
+		slide.className = `slide-item ${index === 0 ? 'active' : ''}`;
+		slide.id = `slide-${index}`;
+		
+		slide.innerHTML = `
+			<div class="slide-img">
+				<img src="${item.img_url}" alt="Memory">
+				<div class="img-actions">
+					<a href="${item.img_url}" target="_blank" class="action-icon-btn">🔍</a>
+					<a href="${item.img_url}" download class="action-icon-btn">💾</a>
+				</div>
+			</div>
+			<div class="note-container">
+				<div class="handwritten-note">
+					<div class="slide-text">
+						<h2>${item.img_note}</h2>
+					</div>
+				</div>
+			</div>
+		`;
+		viewport.appendChild(slide);
+	});
+
+    document.getElementById('navButtons').classList.remove('hidden');
+    startAutoSlide();
 }
 
-function navigateToPayout() {
-    window.location.href = "payout.html";
+function updateSlides() {
+    const slides = document.querySelectorAll('.slide-item');
+    slides.forEach((s, i) => s.classList.toggle('active', i === currentSlideIndex));
+    
+    document.getElementById('progressBar').style.width = `${((currentSlideIndex + 1) / totalSlides) * 100}%`;
+    
+    const redeemBtn = document.getElementById('redeemBtn');
+    redeemBtn.style.display = (currentSlideIndex === totalSlides - 1) ? "block" : "none";
 }
+
+function startAutoSlide() {
+    clearInterval(autoCycle);
+    autoCycle = setInterval(() => {
+        if (currentSlideIndex < totalSlides - 1) {
+            currentSlideIndex++;
+            updateSlides();
+        } else {
+            clearInterval(autoCycle);
+        }
+    }, 6000);
+}
+
+function nextSlide() { currentSlideIndex = (currentSlideIndex + 1) % totalSlides; updateSlides(); startAutoSlide(); }
+function prevSlide() { currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides; updateSlides(); startAutoSlide(); }
+function navigateToPayout() { window.location.href = "payout.html"; }

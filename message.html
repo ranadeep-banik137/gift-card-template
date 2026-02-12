@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>A Special Message | Royal Invitation</title>
+    <title>Our Journey | Royal Invitation</title>
     <link rel="stylesheet" href="message.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:italic,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:italic,wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -14,23 +14,28 @@
     </div>
 
     <div class="app-wrapper">
-        <header class="main-header">
-            <h1 class="brand-title">FOR <span>YOU</span> GUEST</h1>
-            <div class="line-separator"></div>
-        </header>
+		<header class="main-header">
+			<h1 class="brand-title">CONGRATULATIONS <span id="guestNameDisplay"></span></h1>
+			<div class="line-separator"></div>
+			<p class="guest-welcome">We have accumulated some special moments for you</p>
+		</header>
 
-        <main id="messageContainer" class="message-container">
-            <div id="pageLoading">
-                <div class="shimmer-loader"></div>
-            </div>
-        </main>
+		<div class="progress-container">
+			<div id="progressBar" class="progress-bar"></div>
+		</div>
 
-        <div class="action-footer">
-            <button class="gold-action-btn" onclick="navigateToPayout()">Redeem Your Gift</button>
-            <p class="legal-footer">© 2026 RANADEEP'S ARTCRAFTS</p>
-        </div>
+		<main id="storyViewport" class="story-viewport">
+			</main>
+
+		<footer class="cinematic-footer">
+			<div id="navButtons" class="nav-controls hidden">
+				<button class="nav-btn" onclick="prevSlide()">PREV</button>
+				<button class="gold-action-btn" id="redeemBtn" onclick="navigateToPayout()">REDEEM GIFT</button>
+				<button class="nav-btn" onclick="nextSlide()">NEXT</button>
+			</div>
+            <p class="brand-tag">© 2026 RANADEEP'S ARTCRAFTS</p>
+        </footer>
     </div>
-
     <script src="message.js"></script>
 </body>
 </html>

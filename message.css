@@ -1,115 +1,179 @@
+/* Import a beautiful cursive font */
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+
 :root {
     --gold: #d4af37;
-    --white: #ffffff;
-    --glass: rgba(10, 10, 10, 0.7);
+    --glass: rgba(10, 10, 10, 0.85);
     --border: rgba(212, 175, 55, 0.3);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-    background-color: #000;
-    color: var(--white);
+body, html { 
+    height: 100%; 
+    margin: 0; 
+    overflow: hidden; /* Strict no-scroll */
+    background: #000;
     font-family: 'Montserrat', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
 }
 
-.cinematic-container {
-    position: fixed; inset: 0; z-index: -1;
-    background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80') center/cover;
-}
-
+/* Cinematic Background Overlay */
 .video-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+    position: fixed; inset: 0;
+    background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,1) 100%);
+    z-index: -1;
 }
 
 .app-wrapper {
-    width: 90%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 60px 0;
-    z-index: 10;
-    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5vw;
+    box-sizing: border-box;
 }
 
-/* Header Consistency */
-.main-header { text-align: center; margin-bottom: 50px; }
-.brand-title { font-family: 'Cinzel', serif; letter-spacing: 6px; font-size: 2rem; }
+.main-header { text-align: center; flex-shrink: 0; }
+.brand-title { font-family: 'Cinzel', serif; letter-spacing: 5px; color: #fff; margin-bottom: 5px; }
 .brand-title span { color: var(--gold); }
-.line-separator { width: 100px; height: 1px; background: var(--gold); margin: 15px auto; }
+.line-separator { width: 100px; height: 1px; background: var(--gold); margin: 5px auto; }
+.guest-welcome { font-size: 0.75rem; color: var(--gold); letter-spacing: 2px; }
 
-/* Message Section & Zig-Zag Logic */
-.message-item {
+.progress-container { width: 100%; height: 2px; background: rgba(255,255,255,0.1); margin: 15px 0; flex-shrink: 0; }
+.progress-bar { width: 0%; height: 100%; background: var(--gold); transition: width 0.6s ease; }
+
+/* The Story Stage */
+.story-viewport { 
+    flex: 1; 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    min-height: 0; /* Critical for flex child scaling */
+}
+
+.slide-item {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 40px;
-    margin-bottom: 80px;
     opacity: 0;
-    transform: translateY(30px);
-    transition: 1s ease-out forwards;
+    visibility: hidden;
+    transition: all 0.8s ease;
 }
 
-.message-item.reveal { opacity: 1; transform: translateY(0); }
+.slide-item.active { opacity: 1; visibility: visible; }
+.slide-item.active .slide-img img {
+    animation: kenBurns 10s ease-out forwards; /* Slow, elegant zoom */
+}
 
-/* Reverse every second item */
-.message-item:nth-child(even) { flex-direction: row-reverse; }
+/* Zig-Zag Pattern */
+.slide-item:nth-child(odd) { flex-direction: row; }
+.slide-item:nth-child(even) { flex-direction: row-reverse; }
 
-.img-frame {
-    flex: 1;
+/* Ensure the slide-img doesn't crop */
+.slide-img {
+    flex: 1.2;
+    height: 60vh;
+    overflow: hidden; /* Clips the zoom within the border */
     border: 1px solid var(--border);
-    padding: 10px;
-    background: rgba(255,255,255,0.05);
+    background: #000;
 }
 
-.img-frame img {
+.slide-img img {
     width: 100%;
-    display: block;
-    filter: sepia(20%) contrast(1.1);
+    height: 100%;
+    object-fit: contain;
 }
 
-.text-content {
+.slide-text {
     flex: 1;
+    max-width: 450px;
+}
+
+.slide-text h2 {
+    font-family: 'Cedarville Cursive', cursive;
+    color: #2c3e50;
+    font-size: 1.6rem;
+    margin: 0;
+    padding-top: 0.5rem;
+    text-shadow: none;
+}
+
+/* Tool Buttons */
+.img-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.action-icon-btn {
+    background: var(--glass);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; font-size: 1rem;
+}
+
+/* Footer & Controls */
+.cinematic-footer { flex-shrink: 0; text-align: center; padding: 20px 0; }
+.nav-controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
+.nav-btn {
+    background: none; border: 1px solid var(--gold); color: var(--gold);
+    padding: 8px 16px; cursor: pointer; font-size: 0.7rem; letter-spacing: 1px;
+}
+.gold-action-btn {
+    background: var(--gold); color: #000; padding: 12px 30px; border: none;
+    font-weight: 700; cursor: pointer; text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .slide-item, .slide-item:nth-child(even) { flex-direction: column !important; }
+    .slide-img { max-height: 40vh; width: 100%; }
+    .slide-text { text-align: center; }
+}
+
+/* --- The Handwritten Note Box --- */
+.note-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
 }
 
-.note-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.4rem;
-    line-height: 1.8;
-    color: #eee;
+.handwritten-note {
+    background: #fffef0; /* Old paper color */
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3), 0 0 40px rgba(0,0,0,0.1) inset;
+    position: relative;
+    border: 1px solid #dcdcdc;
+    /* Creating the lines */
+    background-image: linear-gradient(#91ced4 1px, transparent 1px);
+    background-size: 100% 2.5rem;
+    line-height: 2.5rem;
 }
 
-/* Loader & Footer */
-.shimmer-loader {
-    width: 50px; height: 50px;
-    border: 3px solid rgba(212, 175, 55, 0.1);
-    border-top: 3px solid var(--gold);
-    border-radius: 50%;
-    margin: 50px auto;
-    animation: spin 1s linear infinite;
+/* Decorative Note Pin */
+.handwritten-note::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 10px;
+    background: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-@keyframes spin { to { transform: rotate(360deg); } }
 
-.action-footer { text-align: center; margin-top: 40px; }
-.gold-action-btn {
-    background: var(--gold);
-    color: #000;
-    border: none;
-    padding: 20px 40px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.gold-action-btn:hover { background: #f4d03f; transform: translateY(-3px); }
-.legal-footer { margin-top: 30px; font-size: 0.7rem; color: #666; letter-spacing: 2px; }
-
-/* Responsive */
-@media (max-width: 768px) {
-    .message-item, .message-item:nth-child(even) { flex-direction: column; gap: 20px; }
-    .note-text { font-size: 1.1rem; text-align: center; }
+/* --- Image Zoom Animation --- */
+@keyframes kenBurns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
 }
