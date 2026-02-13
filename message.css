@@ -55,8 +55,8 @@ body, html {
 }
 
 .guest-title { 
-    font-family: 'Parisienne', cursive; 
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-family: 'Cinzel', cursive; 
+    font-size: clamp(3rem, 5vw, 2.5rem);
     margin: 0; background: var(--royal-gold);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
@@ -196,4 +196,39 @@ body, html {
 /* Adjust the main container so it doesn't hide under the bar */
 .cinematic-wrapper {
     padding-top: 50px !important; 
+}
+
+.message-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* Darker, more solid background for better legibility */
+    background: rgba(5, 5, 5, 0.85); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    
+    padding: 12px 0;
+    text-align: center;
+    z-index: 100;
+    pointer-events: none;
+    
+    /* Text Styling */
+    color: rgba(212, 175, 55, 0.9); /* Solid gold color */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+@media (max-width: 480px) {
+    .message-footer {
+        font-size: 0.55rem;
+        padding: 10px 0;
+        letter-spacing: 2px;
+        /* Slightly more height on mobile for thumb-safety */
+        padding-bottom: env(safe-area-inset-bottom, 10px); 
+    }
 }
