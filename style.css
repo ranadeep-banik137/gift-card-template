@@ -58,11 +58,11 @@ body {
 
 .brand-title {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.5rem, 6vw, 2.1rem);
-    letter-spacing: 6px;
+    font-size: clamp(1.5rem, 6vw, 1.5rem);
+    letter-spacing: 3px;
     margin-bottom: 5px;
 }
-.brand-title span { color: var(--gold); }
+.brand-title span { color: var(--gold); font-size: clamp(1.5rem, 6vw, 2.5rem);}
 .line-separator { width: 80%; max-width: 300px; height: 1px; background: var(--gold); margin: 10px auto; }
 .guest-welcome { font-weight: 300; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem; color: #ccc; }
 

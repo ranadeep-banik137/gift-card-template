@@ -55,7 +55,17 @@ async function requestOTP() {
 		const expiryDate = new Date();
         expiryDate.setMinutes(expiryDate.getMinutes() + 30);
         const expiryISO = expiryDate.toISOString();
-        await supabaseClient.from("gift_otps").upsert({ email, otp, is_claimed: false, updated_at: new Date().toISOString(), expiry_at: expiryISO });
+        const { error: otpError } = await supabaseClient
+            .from('gift_otps').upsert({ 
+			email: email, 
+			otp: otp,
+			customer_name: user.customer_name, 
+			updated_at: new Date().toISOString(), 
+			expiry_at: expiryISO }, { onConflict: 'email' });
+
+        if (otpError) throw otpError;
+		
+		//await supabaseClient.from("gift_otps").upsert({ email, otp, updated_at: new Date().toISOString(), expiry_at: expiryISO });
 
         /*await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
             email: email,
