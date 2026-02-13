@@ -1,172 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Wedding Gift</title>
-
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="pageout-style.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Royal Token</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pageout-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Parisienne&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body class="payout-body">
-
-<!-- Background slideshow -->
-<div class="payout-slideshow">
-  <img src="https://media.istockphoto.com/id/866987706/photo/indian-wedding-hands.jpg?s=612x612&w=0&k=20&c=6L-u9qhFPv9MjDnF4UK4AqjVbDKM4_8Xad72IHhwPZE=" class="payout-slide active">
-  <img src="https://img.freepik.com/free-photo/hands-indian-bride-groom-intertwined-together-making-authentic-wedding-ritual_8353-10047.jpg?semt=ais_user_personalization&w=740&q=80" class="payout-slide">
-  <img src="https://www.manyavar.com/dw/image/v2/BJZV_PRD/on/demandware.static/-/Library-Sites-ManyavarSharedLibrary/default/dw0651b7ec/Unique%20Wedding%20Ceremony%20Ideas%20in%20an%20Inter-cultural%20Indian%20Wedding_blog%201.jpg" class="payout-slide">
-</div>
-
-<!-- Dark overlay -->
-<div class="payout-overlay">
-
-  <!-- Message block -->
-  <div class="message-block">
-    <h1 class="payout-title">With Love & Best Wishes</h1>
-    <p class="payout-message">
-      Dear <span id="guestName">Guest</span>,  
-      thank you for being a part of our special day.
-    </p>
-    <p class="payout-sub">
-      We wish you happiness, love, and beautiful memories always.
-    </p>
-  </div>
-
-  <!-- Voucher card -->
-  <div class="voucher-card">
-
-    <h2 class="voucher-title">Your Gift Card</h2>
-
-    <!-- Mask reveal -->
-    <div class="voucher-mask">
-      <div class="voucher-details">
-        <div class="voucher-row">
-          <span class="label">Voucher Code</span>
-          <span class="value" id="voucherCode">XXXX-XXXX</span>
-        </div>
-        <div class="voucher-row">
-          <span class="label">PIN</span>
-          <span class="value" id="voucherPin">XXXX</span>
-        </div>
-      </div>
+    <div class="payout-slideshow">
+        <div class="payout-slide active" style="background-image: url('https://png.pngtree.com/background/20211217/original/pngtree-royal-golden-blue-mandala-art-background-with-border-invitation-card-wedding-picture-image_1596347.jpg')"></div>
+        <div class="payout-slide" style="background-image: url('https://img.freepik.com/free-photo/hands-indian-bride-groom-intertwined-together-making-authentic-wedding-ritual_8353-10047.jpg?w=740')"></div>
     </div>
 
-    <button class="redeem-btn" onclick="openSteps()">How to Redeem</button>
-  </div>
+    <div class="payout-overlay">
+        <div class="session-timer-pill">
+            <span id="timeLeft">--:--</span>
+        </div>
 
-</div>
+        <header class="payout-header">
+            <h1 class="royal-title">The Imperial Token</h1>
+            <p class="royal-subtitle">Presented to <span id="guestName">Your Majesty</span></p>
+        </header>
 
-<!-- Instructions modal -->
-<div class="steps-modal hidden" id="stepsModal">
-  <div class="steps-card">
-    <h3>How to Redeem Your Gift</h3>
-    <ol>
-      <li>Visit the official gift card website.</li>
-      <li>Enter the voucher code exactly as shown.</li>
-      <li>Enter the PIN when prompted.</li>
-      <li>Confirm and enjoy your gift.</li>
-    </ol>
-    <button onclick="closeSteps()">Close</button>
-  </div>
-</div>
+        <div class="imperial-card">
+            <div class="card-inner">
+                <div class="platform-badge" id="platformName">LOADING TOKEN...</div>
+                
+                <div class="voucher-main">
+                    <div class="field-label">Voucher Access Key</div>
+                    <div class="code-display">
+                        <span id="voucherCode">•••• •••• ••••</span>
+                        <button class="icon-copy-btn" onclick="copyText('voucherCode', this)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Security & Expiry Check
-    const authId = localStorage.getItem('auth_session_id');
-    const isValidated = localStorage.getItem('otp_validated');
-    const sessionExpiry = localStorage.getItem('session_expiry');
+                <div class="voucher-secondary" id="voucherPinGroup" style="display:none;">
+                    <div class="field-label">Security PIN</div>
+                    <div class="code-display pin">
+                        <span id="voucherPin">••••</span>
+                        <button class="icon-copy-btn" onclick="copyText('voucherPin', this)">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    const currentTime = new Date();
-    const expiryTime = sessionExpiry ? new Date(sessionExpiry) : null;
+        <button class="luxury-outline-btn" onclick="toggleSteps()">How to Redeem</button>
+    </div>
 
-    if (!authId || isValidated !== 'true' || !expiryTime || currentTime > expiryTime) {
-        localStorage.clear();
-        window.location.href = "index.html";
-        return;
-    }
+    <div id="stepsModal" class="modal-overlay hidden" onclick="toggleSteps()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <h2 class="modal-heading">Redemption Path</h2>
+            <div class="steps-container">
+                <div class="step-item">
+                    <span class="step-num">01</span>
+                    <p>Visit the <strong id="targetPlatform">Partner</strong> portal.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">02</span>
+                    <p>Apply your <strong>Access Key</strong> at checkout.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">03</span>
+                    <p>Enter <strong>PIN</strong> if prompted to unlock value.</p>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="toggleSteps()">Return to Gallery</button>
+        </div>
+    </div>
 
-	startSessionTimer();
-    // 2. Initialize Page Content
-    initSlideshow();
-    initGuestData();
-});
+    <script>
+        const SUPABASE_URL = "https://wivamsbwvojjzvvbaeet.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_rs2u88McT9Exv4k-rffQaQ__PcIVG2M";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-function initSlideshow() {
-    const slides = document.querySelectorAll(".payout-slide");
-    let current = 0;
-    setInterval(() => {
-        slides[current].classList.remove("active");
-        current = (current + 1) % slides.length;
-        slides[current].classList.add("active");
-    }, 4500);
-}
-
-function initGuestData() {
-    const storedName = localStorage.getItem("guestName");
-    if (storedName) {
-        document.getElementById("guestName").innerText = storedName;
-    }
-    // Replace these with your actual logic to fetch real codes if necessary
-    document.getElementById("voucherCode").innerText = "ABCD-1234-WEDS";
-    document.getElementById("voucherPin").innerText = "8291";
-}
-
-function openSteps(){
-  document.getElementById("stepsModal").classList.remove("hidden");
-}
-
-function closeSteps(){
-  document.getElementById("stepsModal").classList.add("hidden");
-}
-
-function startSessionTimer() {
-    // Check for existing timer
-    if (document.querySelector('.session-timer')) return;
-
-    const timerDiv = document.createElement('div');
-    timerDiv.className = 'session-timer';
-    timerDiv.innerHTML = `
-        <span class="timer-label">Access Expires In:</span>
-        <span class="timer-value" id="timeLeft">--:--</span>
-    `;
-    
-    // Attach to body directly
-    document.body.appendChild(timerDiv);
-
-    const expiryStr = localStorage.getItem('session_expiry');
-    if (!expiryStr) return;
-
-    const expiryTime = new Date(expiryStr).getTime();
-
-    const updateTimer = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = expiryTime - now;
-
-        if (distance <= 0) {
-            clearInterval(updateTimer);
-            localStorage.clear();
-            window.location.href = "index.html";
-            return;
-        }
-
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        const displayElement = document.getElementById("timeLeft");
-        if (displayElement) {
-            displayElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        document.addEventListener('DOMContentLoaded', () => {
+            const authId = localStorage.getItem('auth_session_id');
+            const guestName = localStorage.getItem('guestName');
             
-            // Warning color
-            if (distance < 300000) { // 5 minutes
-                displayElement.style.color = "#ff4d4d";
+            if (!authId) { window.location.href = "index.html"; return; }
+            document.getElementById('guestName').innerText = guestName || "Royal Guest";
+            
+            fetchVoucherData(authId);
+            startSessionTimer();
+            initSlideshow();
+        });
+
+        async function fetchVoucherData(authId) {
+            try {
+                // Ensure we query using the authId (UUID) stored from the gift_otps table
+                const { data, error } = await supabaseClient
+                    .from('voucher')
+                    .select('*')
+                    .eq('assigned_to', authId)
+                    .single();
+
+                if (data) {
+                    document.getElementById('platformName').innerText = data.gift_platform;
+                    document.getElementById('targetPlatform').innerText = data.gift_platform;
+                    document.getElementById('voucherCode').innerText = data.voucher_key;
+                    
+                    if (data.voucher_pin) {
+                        document.getElementById('voucherPinGroup').style.display = 'block';
+                        document.getElementById('voucherPin').innerText = data.voucher_pin;
+                    }
+                } else {
+                    document.getElementById('platformName').innerText = "VOUCHER ASSIGNED";
+                }
+            } catch (e) {
+                console.error(e);
+                document.getElementById('platformName').innerText = "VOUCHER ERROR";
             }
         }
-    }, 1000);
-}
-</script>
 
+        function copyText(id, btn) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text);
+            const originalInner = btn.innerHTML;
+            btn.innerHTML = '<span style="font-size:10px; color:#d4af37">COPIED</span>';
+            setTimeout(() => btn.innerHTML = originalInner, 2000);
+        }
+
+        function toggleSteps() { document.getElementById('stepsModal').classList.toggle('hidden'); }
+
+        function initSlideshow() {
+            const slides = document.querySelectorAll('.payout-slide');
+            let idx = 0;
+            setInterval(() => {
+                slides[idx].classList.remove('active');
+                idx = (idx + 1) % slides.length;
+                slides[idx].classList.add('active');
+            }, 6000);
+        }
+
+        function startSessionTimer() {
+            const expiry = localStorage.getItem('session_expiry');
+            const end = new Date(expiry).getTime();
+            setInterval(() => {
+                const now = new Date().getTime();
+                const diff = end - now;
+                if (diff <= 0) { localStorage.clear(); window.location.href = "index.html"; }
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                document.getElementById("timeLeft").innerText = `${m}:${s < 10 ? '0'+s : s}`;
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
