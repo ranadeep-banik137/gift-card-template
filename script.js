@@ -57,11 +57,11 @@ async function requestOTP() {
         const expiryISO = expiryDate.toISOString();
         await supabaseClient.from("gift_otps").upsert({ email, otp, is_claimed: false, updated_at: new Date().toISOString(), expiry_at: expiryISO });
 
-        await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
+        /*await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
             email: email,
             otp_code: otp,
             customer_name: user.customer_name
-        });
+        });*/
 
         localStorage.setItem("guestName", user.customer_name);
 		localStorage.setItem("session_expiry", expiryISO);

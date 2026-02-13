@@ -150,3 +150,41 @@
 .hidden {
   display: none !important;
 }
+
+/* ELEGANT SESSION BAR - FORCED TO TOP */
+.session-timer {
+    position: absolute; /* Breaks out of flex centering */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+    padding: 10px 0;
+    z-index: 9999; /* Higher than any other element */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.timer-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #d4af37;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.timer-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: white;
+    font-weight: bold;
+}
+
+/* Adjust the main container so it doesn't hide under the bar */
+.cinematic-wrapper {
+    padding-top: 50px !important; 
+}

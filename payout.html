@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
+	startSessionTimer();
     // 2. Initialize Page Content
     initSlideshow();
     initGuestData();
@@ -119,6 +120,51 @@ function openSteps(){
 
 function closeSteps(){
   document.getElementById("stepsModal").classList.add("hidden");
+}
+
+function startSessionTimer() {
+    // Check for existing timer
+    if (document.querySelector('.session-timer')) return;
+
+    const timerDiv = document.createElement('div');
+    timerDiv.className = 'session-timer';
+    timerDiv.innerHTML = `
+        <span class="timer-label">Access Expires In:</span>
+        <span class="timer-value" id="timeLeft">--:--</span>
+    `;
+    
+    // Attach to body directly
+    document.body.appendChild(timerDiv);
+
+    const expiryStr = localStorage.getItem('session_expiry');
+    if (!expiryStr) return;
+
+    const expiryTime = new Date(expiryStr).getTime();
+
+    const updateTimer = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = expiryTime - now;
+
+        if (distance <= 0) {
+            clearInterval(updateTimer);
+            localStorage.clear();
+            window.location.href = "index.html";
+            return;
+        }
+
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        const displayElement = document.getElementById("timeLeft");
+        if (displayElement) {
+            displayElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Warning color
+            if (distance < 300000) { // 5 minutes
+                displayElement.style.color = "#ff4d4d";
+            }
+        }
+    }, 1000);
 }
 </script>
 
