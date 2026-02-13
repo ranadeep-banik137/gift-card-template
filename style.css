@@ -181,3 +181,46 @@ input:focus { outline: none; border-color: var(--gold); }
     .premium-card { padding: 30px 20px; }
     .brand-title { letter-spacing: 4px; }
 }
+
+/* ELEGANT BACK LINK STYLING */
+.back-text-link {
+    display: block;
+    width: fit-content;
+    /* Reduced top margin from 20px to 8px; kept 5px at bottom */
+    margin: 2px auto -2px; 
+    background: none;
+    border: none;
+    color: rgba(212, 175, 55, 0.6);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    /* Reduced vertical padding from 5px to 2px */
+    padding: 3px 3px; 
+    border-bottom: 1px solid transparent;
+    line-height: 1; /* Ensures no extra height from line spacing */
+	height: auto;
+    min-height: 0;
+}
+
+.back-text-link:hover {
+    color: var(--gold-bright); /* Lights up on hover */
+    letter-spacing: 3px; /* Subtle "expanding" animation */
+    border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+    opacity: 1;
+}
+
+/* Optional: Add a small arrow icon via CSS */
+.back-text-link::before {
+    content: '← ';
+    font-size: 0.8rem;
+    margin-right: 5px;
+    transition: margin-right 0.4s ease;
+}
+
+.back-text-link:hover::before {
+    margin-right: 10px; /* Moves arrow slightly left on hover */
+}
