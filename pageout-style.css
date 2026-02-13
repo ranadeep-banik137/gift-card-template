@@ -97,16 +97,37 @@ html {
 }
 
 .royal-title {
-  font-family: 'Cinzel', serif; font-size: 1.8rem;
+  font-family: 'Cinzel', serif; 
+  font-size: 1.8rem;
   background: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #b38728 70%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  letter-spacing: 6px; text-transform: uppercase; margin: 0;
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 6px; 
+  text-transform: uppercase; 
+  margin: 0;
+  text-align: center;
+  /* Prevent wrapping on mobile */
+  white-space: nowrap; 
+}
+
+/* Specific adjustment for smaller mobile screens */
+@media (max-width: 480px) {
+    .royal-title {
+        font-size: 1.2rem; /* Reduced size so 3 words fit on one line */
+        letter-spacing: 3px; /* Slightly tighter spacing for mobile */
+    }
 }
 
 .royal-subtitle {
-  font-family: 'Montserrat', sans-serif; font-weight: 300;
-  font-size: 0.8rem; letter-spacing: 3px; color: rgba(255,255,255,0.6);
+  font-family: 'Montserrat', sans-serif; 
+  font-weight: 300;
+  font-size: 0.8rem; 
+  letter-spacing: 3px; 
+  color: rgba(255,255,255,0.6);
   margin-top: 10px;
+  /* Centering logic */
+  text-align: center;
+  width: 100%;
 }
 
 #guestName { font-family: 'Parisienne', cursive; color: #d4af37; font-size: 1.3rem; }
