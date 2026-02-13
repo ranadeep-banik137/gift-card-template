@@ -148,32 +148,73 @@ html {
 }
 
 .platform-badge {
-  font-family: 'Cinzel', serif; font-size: 0.7rem;
+  font-family: 'Cinzel', serif; font-size: 0.9rem;
   letter-spacing: 4px; color: #d4af37;
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   display: inline-block; padding-bottom: 10px; margin-bottom: 30px;
 }
 
+/* Container for each voucher field to create spacing */
+.voucher-main, .voucher-secondary {
+    margin-bottom: 25px; /* Added spacing between Key and PIN fields */
+}
+
 .field-label {
-  font-size: 0.6rem; text-transform: uppercase;
-  letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.60rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(212, 175, 55, 0.8);
+    margin-bottom: 18px;
+    display: block;
 }
 
+/* The "Beautiful Box" for the codes */
 .code-display {
-  display: flex; justify-content: center; align-items: center;
-  gap: 15px; background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 15px; margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.03); /* Subtle glass texture */
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Thin gold border */
+    padding: 3px 4px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
-#voucherCode { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: 3px; }
-#voucherPin { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.1rem; }
+.code-display:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(212, 175, 55, 0.6);
+}
+
+#voucherCode, #voucherPin {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: #fff;
+    
+    /* Handling overflow within the box */
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 75%; /* Limits text width to prevent pushing the copy button out */
+}
 
 .icon-copy-btn {
-  background: none; border: none; color: #d4af37;
-  cursor: pointer; opacity: 0.6; transition: 0.3s;
+    background: none;
+    border: none;
+    color: #d4af37;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
 }
-.icon-copy-btn:hover { opacity: 1; transform: scale(1.1); }
+
+.icon-copy-btn:hover {
+    transform: scale(1.1);
+}
 
 .luxury-outline-btn {
   background: none; border: 1px solid rgba(255,255,255,0.2);

@@ -106,11 +106,16 @@
 					const platformTitle = data.gift_platform ? `${data.gift_platform.toUpperCase()} TOKEN` : "ROYAL TOKEN";
                     document.getElementById('platformName').innerText = platformTitle;
                     document.getElementById('targetPlatform').innerText = data.gift_platform;
-                    document.getElementById('voucherCode').innerText = data.voucher_key;
-                    if (data.voucher_pin) {
-                        document.getElementById('voucherPinGroup').style.display = 'block';
-                        document.getElementById('voucherPin').innerText = data.voucher_pin;
-                    }
+                    const codeElement = document.getElementById('voucherCode');
+					codeElement.innerText = data.voucher_key;
+					codeElement.setAttribute('data-full-key', data.voucher_key); // Store full key here
+
+					if (data.voucher_pin) {
+						const pinElement = document.getElementById('voucherPin');
+						document.getElementById('voucherPinGroup').style.display = 'block';
+						pinElement.innerText = data.voucher_pin;
+						pinElement.setAttribute('data-full-key', data.voucher_pin); // Store full pin here
+					}
                 }
             } catch (e) { console.error(e); }
         }
@@ -145,12 +150,16 @@
         }
 
         function copyText(id, btn) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text);
-            const originalInner = btn.innerHTML;
-            btn.innerHTML = '<span style="font-size:10px; color:#d4af37">COPIED</span>';
-            setTimeout(() => btn.innerHTML = originalInner, 2000);
-        }
+			const el = document.getElementById(id);
+			// Get full key from attribute, fallback to innerText if attribute missing
+			const textToCopy = el.getAttribute('data-full-key') || el.innerText;
+			
+			navigator.clipboard.writeText(textToCopy);
+			
+			const originalInner = btn.innerHTML;
+			btn.innerHTML = '<span style="font-size:10px; color:#d4af37">COPIED</span>';
+			setTimeout(() => btn.innerHTML = originalInner, 2000);
+		}
 
         function toggleSteps() { document.getElementById('stepsModal').classList.toggle('hidden'); }
 
