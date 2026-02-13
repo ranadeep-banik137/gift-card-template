@@ -50,12 +50,20 @@
                         </button>
                     </div>
                 </div>
+				<div class="redemption-action">
+					<div class="divider-text">Direct Redemption</div>
+					<button class="phonepe-btn" onclick="redeemOnPhonePe('voucherCode')">
+						<img src="https://cdn.brandfetch.io/idcE0OdG8i/theme/dark/symbol.svg?c=1bxid64Mup7aczewSAYMX&t=1668075190583" alt="PhonePe" class="phonepe-icon">
+						<span>Open PhonePe App</span>
+					</button>
+				</div>
             </div>
         </div>
 
         <button class="luxury-outline-btn" onclick="toggleSteps()">How to Redeem</button>
     </div>
-
+	
+	
     <div id="stepsModal" class="modal-overlay hidden" onclick="toggleSteps()">
         <div class="modal-card" onclick="event.stopPropagation()">
             <h2 class="modal-heading">Redemption Process</h2>
@@ -188,6 +196,24 @@
                 slides[idx].classList.add('active');
             }, 6000);
         }
+		
+		function redeemOnPhonePe(codeId) {
+			const code = document.getElementById(codeId).innerText;
+			
+			// 1. Copy to clipboard
+			navigator.clipboard.writeText(code).then(() => {
+				alert("Code copied! Opening PhonePe...");
+				
+				// 2. Attempt to open PhonePe app
+				// Note: This works best on mobile devices
+				window.location.href = "phonepe://";
+				
+				// Fallback: If app doesn't open in 2 seconds, go to website
+				setTimeout(() => {
+					window.open("https://www.phonepe.com/", "_blank");
+				}, 2000);
+			});
+		}
     </script>
 </body>
 </html>
