@@ -1,16 +1,46 @@
 /* --- Global Body Fix --- */
+/* --- Premium Custom Scrollbar --- */
+
+/* 1. Define the width of the scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* 2. Style the track (the background of the scrollbar) */
+::-webkit-scrollbar-track {
+    background: #050505;
+}
+
+/* 3. Style the thumb (the part you grab) */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, transparent, #d4af37, transparent);
+    border-radius: 10px;
+    border: 2px solid #050505; /* Creates a padding effect around the gold thumb */
+}
+
+/* 4. Add a hover effect to the gold thumb */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, transparent, #fcf6ba, transparent);
+}
+
+/* --- Smooth Scrolling for the whole page --- */
+html {
+    scroll-behavior: smooth;
+}
+
+/* --- Adjusted Body for Scroll Experience --- */
 .payout-body {
-  margin: 0; 
-  background: #050505; 
-  color: #fff;
-  min-height: 100dvh; /* Changed from height to min-height */
-  width: 100vw; 
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: hidden;
-  display: flex; 
-  justify-content: center; 
-  align-items: center;
-  padding: 60px 0; /* Added padding so content doesn't touch edges when scrolling */
+    margin: 0; 
+    background: #050505; 
+    color: #fff;
+    min-height: 100dvh; 
+    width: 100vw; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; /* Changed from center to flex-start for better scroll starting point */
+    padding: 100px 0; /* Ensures space for the fixed timer and bottom clearance */
 }
 
 /* --- Session Timer (Matched with Message Page) --- */
@@ -67,7 +97,7 @@
 }
 
 .royal-title {
-  font-family: 'Cinzel', serif; font-size: 2.2rem;
+  font-family: 'Cinzel', serif; font-size: 1.8rem;
   background: linear-gradient(135deg, #d4af37 0%, #fcf6ba 45%, #b38728 70%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   letter-spacing: 6px; text-transform: uppercase; margin: 0;
