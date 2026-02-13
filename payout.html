@@ -85,7 +85,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const authId = localStorage.getItem('auth_session_id');
             const guestName = localStorage.getItem('guestName');
-            
+            console.log('User ID', authId)
             if (!authId) { window.location.href = "index.html"; return; }
             document.getElementById('guestName').innerText = guestName || "Royal Guest";
             
@@ -101,9 +101,10 @@
                     .select('*')
                     .eq('assigned_to', authId)
                     .single();
-
+				console.log('Voucher Data', data)
                 if (data) {
-                    document.getElementById('platformName').innerText = data.gift_platform;
+					const platformTitle = data.gift_platform ? `${data.gift_platform.toUpperCase()} TOKEN` : "ROYAL TOKEN";
+                    document.getElementById('platformName').innerText = platformTitle;
                     document.getElementById('targetPlatform').innerText = data.gift_platform;
                     document.getElementById('voucherCode').innerText = data.voucher_key;
                     if (data.voucher_pin) {
