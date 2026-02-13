@@ -21,10 +21,15 @@ async function bootSystem() {
         }
 
         console.log("👑 Imperial Systems Online.");
+		
+		const path = window.location.pathname;
 
-        // 4. Trigger page-specific logic
-        if (window.location.pathname.includes('payout.html')) {
-            startPayoutSequence();
+        // --- TRIGGER PAGE LOGIC ---
+        if (path.includes('message.html')) {
+            if (typeof startMessageSequence === "function") startMessageSequence();
+        } 
+        else if (path.includes('payout.html')) {
+            if (typeof startPayoutSequence === "function") startPayoutSequence();
         }
 
     } catch (err) {
