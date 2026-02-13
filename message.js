@@ -1,7 +1,3 @@
-const SUPABASE_URL = "https://wivamsbwvojjzvvbaeet.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_rs2u88McT9Exv4k-rffQaQ__PcIVG2M";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 let currentSlideIndex = 0;
 let totalSlides = 0;
 

@@ -321,3 +321,56 @@ html {
         padding: 6px 14px;
     }
 }
+/* Container inside the card */
+.redemption-action {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(212, 175, 55, 0.15); /* Elegant gold divider */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.divider-text {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(212, 175, 55, 0.4);
+    margin-bottom: 15px;
+}
+
+.phonepe-btn {
+    width: 100%;
+    max-width: 300px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 8px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.phonepe-btn:hover {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: #fcf6ba;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.phonepe-btn span {
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.phonepe-icon {
+    height: 20px;
+    width: auto;
+}
