@@ -90,16 +90,28 @@ body, html {
 }
 
 .photo-frame {
-    background: var(--glass-bg); padding: 10px;
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    overflow: hidden; /* This keeps the zoom contained */
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Matches your gold theme */
+    transition: border-color 0.5s ease;
 }
 
 .photo-frame img {
-    display: block; width: auto; max-width: 100%; 
-    max-height: 50vh; /* Limits image height to prevent footer collision */
+    /* RESTORING YOUR ORIGINAL SIZING */
+    display: block; 
+    width: auto; 
+    max-width: 100%; 
+    max-height: 50vh; 
     object-fit: contain;
+
+    /* ADDING THE ANIMATION LOGIC */
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
+
+/* THE ZOOM EFFECT */
+/* This triggers when the mouse enters the frame area */
+.photo-frame:hover img {
+    transform: scale(1.1); /* Zoom in by 10% */
 }
 
 /* SCROLLABLE NOTEBOOK (Modern Luxury) */
