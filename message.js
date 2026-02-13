@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	
 	const guestName = localStorage.getItem('guestName');
     if (guestName) document.getElementById('guestNameDisplay').textContent = guestName;
+	startBackgroundSlideshow()
 	startSessionTimer();
     await loadJourney(authId);
 });
@@ -154,4 +155,22 @@ function openModal(imgSrc) {
 
 function closeModal() {
     document.getElementById('imageModal').classList.remove('active');
+}
+
+function startBackgroundSlideshow() {
+    const slides = document.querySelectorAll('.bg-slide');
+    if (slides.length === 0) return;
+
+    let currentIndex = 0;
+
+    setInterval(() => {
+        // Remove active class from current
+        slides[currentIndex].classList.remove('active');
+        
+        // Move to next slide
+        currentIndex = (currentIndex + 1) % slides.length;
+        
+        // Add active class to next
+        slides[currentIndex].classList.add('active');
+    }, 6000); // Transitions every 6 seconds
 }

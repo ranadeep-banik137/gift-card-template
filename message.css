@@ -15,12 +15,37 @@ body, html {
     font-family: 'Montserrat', sans-serif;
     color: white;
     /* DYNAMIC DARK GRADIENT BACKGROUND */
-    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050505 100%);
+    /*background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050505 100%);*/
+	background: radial-gradient(circle at 50% 50%, rgba(26, 26, 46, 0.7) 0%, rgba(5, 5, 5, 0.9) 100%);
+}
+
+.background-slideshow {
+    position: fixed;
+    inset: 0;
+    z-index: -1; /* Behind everything */
+    overflow: hidden;
+    background: #000; /* Fallback */
+}
+
+.bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2s ease-in-out, transform 8s linear;
+    transform: scale(1.1); /* Slight zoom for movement */
+}
+
+
+.bg-slide.active {
+    opacity: 9.0; /* Transparency to show the mesh and gradients */
+    transform: scale(1); /* Ken Burns effect: zooms out slowly */
 }
 
 /* PLAYFUL MOVING MESH OVERLAY */
 .mesh-gradient {
-    position: fixed; inset: 0; z-index: -2;
+    position: fixed; inset: 0; z-index: -3; opacity: 4.0; pointer-events: none;
     background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #16213e, #0f0c29);
     background-size: 400% 400%;
     animation: liquidFlow 15s ease infinite;
