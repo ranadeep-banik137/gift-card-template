@@ -52,7 +52,10 @@ async function requestOTP() {
         if (error || !user) throw new Error("Email not recognized. Please check your invitation.");
 
         const otp = Math.floor(100000 + Math.random() * 900000);
-        await supabaseClient.from("gift_otps").upsert({ email, otp, is_claimed: false, updated_at: new Date().toISOString() });
+		const expiryDate = new Date();
+        expiryDate.setMinutes(expiryDate.getMinutes() + 30);
+        const expiryISO = expiryDate.toISOString();
+        await supabaseClient.from("gift_otps").upsert({ email, otp, is_claimed: false, updated_at: new Date().toISOString(), expiry_at: expiryISO });
 
         await emailjs.send("service_yzuzi9b", "template_ylr0typ", {
             email: email,
@@ -61,6 +64,7 @@ async function requestOTP() {
         });
 
         localStorage.setItem("guestName", user.customer_name);
+		localStorage.setItem("session_expiry", expiryISO);
         
         document.getElementById('emailInputGroup').classList.add('hidden');
         document.getElementById('otpInputGroup').classList.remove('hidden');

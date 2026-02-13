@@ -6,10 +6,23 @@ let currentSlideIndex = 0;
 let totalSlides = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const guestName = localStorage.getItem('guestName');
-    if (guestName) document.getElementById('guestNameDisplay').textContent = guestName;
-    
     const authId = localStorage.getItem('auth_session_id');
+    const isValidated = localStorage.getItem('otp_validated');
+    const sessionExpiry = localStorage.getItem('session_expiry');
+
+    const currentTime = new Date();
+    const expiryTime = sessionExpiry ? new Date(sessionExpiry) : null;
+
+    // Redirect if not validated, no ID, or if time has run out
+    if (!authId || isValidated !== 'true' || !expiryTime || currentTime > expiryTime) {
+        console.warn("Session invalid or expired. Redirecting to login.");
+        localStorage.clear(); // Clear potentially expired data
+        window.location.href = "index.html";
+        return;
+    }
+	
+	const guestName = localStorage.getItem('guestName');
+    if (guestName) document.getElementById('guestNameDisplay').textContent = guestName;
     await loadJourney(authId);
 });
 

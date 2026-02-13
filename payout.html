@@ -74,34 +74,44 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Restriction Check
+    // 1. Security & Expiry Check
     const authId = localStorage.getItem('auth_session_id');
     const isValidated = localStorage.getItem('otp_validated');
+    const sessionExpiry = localStorage.getItem('session_expiry');
 
-    if (!authId || isValidated !== 'true') {
+    const currentTime = new Date();
+    const expiryTime = sessionExpiry ? new Date(sessionExpiry) : null;
+
+    if (!authId || isValidated !== 'true' || !expiryTime || currentTime > expiryTime) {
+        localStorage.clear();
         window.location.href = "index.html";
         return;
     }
+
+    // 2. Initialize Page Content
+    initSlideshow();
+    initGuestData();
 });
-/* slideshow */
-const slides = document.querySelectorAll(".payout-slide");
-let current = 0;
 
-setInterval(() => {
-  slides[current].classList.remove("active");
-  current = (current + 1) % slides.length;
-  slides[current].classList.add("active");
-}, 4500);
-
-/* guest name (fallback-safe) */
-const storedName = localStorage.getItem("guestName");
-if (storedName) {
-  document.getElementById("guestName").innerText = storedName;
+function initSlideshow() {
+    const slides = document.querySelectorAll(".payout-slide");
+    let current = 0;
+    setInterval(() => {
+        slides[current].classList.remove("active");
+        current = (current + 1) % slides.length;
+        slides[current].classList.add("active");
+    }, 4500);
 }
 
-/* demo values (replace with real later) */
-document.getElementById("voucherCode").innerText = "ABCD-1234-WEDS";
-document.getElementById("voucherPin").innerText = "8291";
+function initGuestData() {
+    const storedName = localStorage.getItem("guestName");
+    if (storedName) {
+        document.getElementById("guestName").innerText = storedName;
+    }
+    // Replace these with your actual logic to fetch real codes if necessary
+    document.getElementById("voucherCode").innerText = "ABCD-1234-WEDS";
+    document.getElementById("voucherPin").innerText = "8291";
+}
 
 function openSteps(){
   document.getElementById("stepsModal").classList.remove("hidden");
