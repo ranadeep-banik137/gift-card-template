@@ -1,217 +1,226 @@
 :root {
     --gold: #d4af37;
-    --dark-gold: #b38f4d;
+    --gold-bright: #f4d03f;
     --white: #ffffff;
-    --bg-url: url('https://img.freepik.com/free-vector/decorative-background-design_1110-177.jpg?t=st=1770496411~exp=1770500011~hmac=873b3310c050f8e2152240f4f73c767868d7bb4880cc9db6faf5ac406243e892');
+    /* Changed to be more transparent as requested */
+    --glass: rgba(10, 10, 10, 0.6); 
+    --border: rgba(212, 175, 55, 0.3);
 }
 
-body, html {
-    margin: 0; padding: 0;
-    height: 100vh; width: 100%;
-    display: flex; justify-content: center; align-items: center;
-    overflow: hidden;
-    font-family: 'Playfair Display', serif;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-.main-bg {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: var(--bg-url) no-repeat center center;
-    background-size: cover;
-    z-index: -1;
-}
-
-.hidden { display: none !important; }
-
-/* ENVELOPE (Original Working Style) */
-.envelope-wrapper { cursor: pointer; text-align: center; }
-.instruction { margin-top: 30px; color: #444; font-style: italic; font-weight: bold; text-shadow: 1px 1px 2px white; }
-
-.envelope {
-    position: relative; width: 300px; height: 200px;
-    background: #f3e5ab;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-}
-
-.envelope .top {
-    position: absolute; top: 0; width: 0; height: 0;
-    border-left: 150px solid transparent; border-right: 150px solid transparent;
-    border-top: 100px solid #e6d58e;
-    transform-origin: top; transition: transform 0.5s 0.2s ease; z-index: 3;
-}
-
-.envelope.open .top { transform: rotateX(180deg); z-index: 0; }
-
-.envelope .front {
-    position: absolute; bottom: 0; width: 0; height: 0;
-    border-left: 150px solid transparent; border-right: 150px solid transparent;
-    border-bottom: 100px solid #f3e5ab; z-index: 2;
-}
-
-.envelope .card {
-    position: absolute; bottom: 10px; left: 10px;
-    width: 280px; height: 180px; background: white;
-    transition: transform 0.6s 0.6s ease; z-index: 1;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-}
-
-.envelope.open .card { transform: translateY(-110px); }
-.heart { color: #e74c3c; font-size: 1.5rem; margin-top: 5px; }
-
-/* ELEGANT CARDS (Fixed Spacing) */
-.elegant-card {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px; border-radius: 12px; border: 1px solid var(--gold);
-    text-align: center; width: 100%; max-width: 400px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    display: flex; flex-direction: column; gap: 15px; /* Ensures items don't overlap */
-}
-
-.card-desc { color: #666; font-size: 0.95rem; margin-bottom: 5px; }
-.cinzel { font-family: 'Cinzel', serif; color: var(--dark-gold); margin: 0; }
-.cursive { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--gold); margin: 0; }
-
-/* INPUT GROUP */
-.input-group { width: 100%; margin: 10px 0; }
-input {
-    width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px;
-    font-size: 1.4rem; letter-spacing: 5px; text-align: center;
-    background: white; outline-color: var(--gold);
-}
-
-.gold-btn {
-    background: var(--gold); color: white; border: none;
-    padding: 14px; font-family: 'Cinzel', serif; font-weight: bold;
-    border-radius: 4px; cursor: pointer; transition: 0.3s;
-}
-.gold-btn:hover { background: var(--dark-gold); }
-
-/* RESEND AREA */
-.resend-group { display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 0.85rem; }
-.resend-link { background: none; border: none; color: #888; text-decoration: underline; cursor: pointer; }
-.timer-text { color: #888; font-weight: bold; }
-
-.error { color: #e74c3c; font-size: 0.85rem; min-height: 20px; }
-.divider { width: 60px; height: 2px; background: var(--gold); margin: 10px auto; }
-.message-body { line-height: 1.7; color: #444; font-size: 1.1rem; }
-
-/* LOADER */
-.loader {
-    border: 3px solid #f3f3f3; border-top: 3px solid var(--gold);
-    border-radius: 50%; width: 30px; height: 30px;
-    animation: spin 1s linear infinite;
-}
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-/* Teaser Card */
-.teaser-card {
-background: rgba(255,255,255,0.9);
-padding: 14px 24px;
-border-radius: 8px;
-margin-bottom: 20px;
-font-style: italic;
-box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-}
-
-#reveal-stage {
-    position: fixed;
-    inset: 0;
-    background: #000; /* Deep black for high contrast */
+body {
+    background-color: #000;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    /* Fixed for mobile viewport height */
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1000px;
-    z-index: 1000;
+    letter-spacing: 0.5px;
 }
 
-.mask-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
+/* CINEMATIC SLIDESHOW */
+.cinematic-container { position: fixed; inset: 0; z-index: -1; }
+.video-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.9));
+    z-index: 2;
 }
-
-.mask-layer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 400px;
-    height: 500px;
-    margin-left: -200px;
-    margin-top: -250px;
+.slideshow { width: 100%; height: 100%; position: relative; }
+.slide {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
     opacity: 0;
-    pointer-events: none;
-    transform: translateZ(-500px) scale(0.5); /* Start deep in the back */
+    transition: opacity 2.5s ease-in-out, transform 10s linear;
+    transform: scale(1.1);
+}
+.slide.active { opacity: 1; transform: scale(1); }
+
+/* LAYOUT WRAPPER */
+.app-wrapper {
+    width: 95%;
+    max-width: 450px; /* More convenient size */
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10;
+    padding: 20px 0;
 }
 
-/* The Cinematic "Pass-Through" Animation */
-.mask-layer.active {
-    animation: cinemaPass 4s cubic-bezier(0.15, 0, 0.15, 1) forwards;
+.main-header { text-align: center; margin-bottom: 20px; }
+
+.brand-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 6vw, 1.5rem);
+    letter-spacing: 3px;
+    margin-bottom: 5px;
+}
+.brand-title span { color: var(--gold); font-size: clamp(1.5rem, 6vw, 2.5rem);}
+.line-separator { width: 80%; max-width: 300px; height: 1px; background: var(--gold); margin: 10px auto; }
+.guest-welcome { font-weight: 300; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem; color: #ccc; }
+
+/* TAP HINT STYLE (Request 1) */
+.tap-hint {
+    margin-top: 30px;
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    font-weight: 400;
+    animation: pulse 2s infinite;
 }
 
-@keyframes cinemaPass {
-    0% {
-        opacity: 0;
-        transform: translateZ(-500px) scale(0.5) rotateY(20deg);
-        filter: blur(10px) brightness(0);
-    }
-    20% {
-        opacity: 1;
-        filter: blur(0px) brightness(1.2);
-    }
-    80% {
-        opacity: 1;
-        filter: blur(0px) brightness(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateZ(1000px) scale(3) rotateY(-10deg); /* Fly past the camera */
-        filter: blur(20px) brightness(2);
-    }
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
 }
 
-.reveal-img {
+/* AUTH CARD (Request 3, 4, 5) */
+.premium-card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 40px 30px; /* Reduced top padding */
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); /* Subtle gold glow */
-    border: 1px solid rgba(212, 175, 55, 0.5);
 }
 
-/* Add a "Film Grain" or Dust Effect */
-#reveal-stage::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: url('https://www.transparenttextures.com/patterns/stardust.png');
-    opacity: 0.3;
-    pointer-events: none;
+.card-header h3 { 
+    font-family: 'Cinzel', serif; 
+    font-size: 1.4rem;
+    margin-bottom: 10px; 
+    color: var(--gold);
+    text-align: center; 
+}
+.subtitle { font-size: 0.75rem; line-height: 1.6; color: #bbb; text-align: center; margin-bottom: 30px;}
+
+.form-container { display: flex; flex-direction: column; gap: 25px; }
+
+/* Email Field Spacing (Request 4) */
+#emailInputGroup { margin-top: 10px; }
+
+.input-wrapper { display: flex; flex-direction: column; gap: 8px; }
+.input-wrapper label { font-size: 0.65rem; text-transform: uppercase; color: var(--gold); letter-spacing: 2px; }
+
+input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 0;
+    color: white;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 0;
+}
+input:focus { outline: none; border-color: var(--gold); }
+
+.gold-action-btn {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    transition: 0.3s ease;
+    margin-top: 10px;
+}
+.gold-action-btn:hover { background: var(--gold-bright); }
+
+/* CUSTOM LOADER (Request 6) */
+.shimmer-loader {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(212, 175, 55, 0.2);
+    border-top: 3px solid var(--gold);
+    border-radius: 50%;
+    margin: 20px auto;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.loading-text { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); text-align: center;}
+
+/* FOOTER (Request 2) */
+.legal-footer {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
+    text-transform: uppercase;
 }
 
+/* ENVELOPE */
+.envelope-container { width: 260px; height: 160px; margin: 0 auto; cursor: pointer; }
+.envelope { width: 100%; height: 100%; background: #f4f4f4; position: relative; border-radius: 2px; }
+.flap {
+    position: absolute; top: 0; width: 0; height: 0;
+    border-left: 130px solid transparent; border-right: 130px solid transparent;
+    border-top: 90px solid var(--gold); transform-origin: top; transition: 0.8s; z-index: 5;
+}
+.open .flap { transform: rotateX(180deg); }
 
-.handwrite-text {
-  position: absolute;
-  bottom: -80px;
-  width: 100%;
-  height: 120px;
+.hidden { display: none !important; }
+
+/* MOBILE RESPONSIVENESS (Request 7) */
+@media (max-width: 480px) {
+    .app-wrapper { width: 88%; }
+    .premium-card { padding: 30px 20px; }
+    .brand-title { letter-spacing: 4px; }
 }
 
-.handwrite-text path {
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
-
-  animation: handwriting 3s ease forwards;
+/* ELEGANT BACK LINK STYLING */
+.back-text-link {
+    display: block;
+    width: fit-content;
+    /* Reduced top margin from 20px to 8px; kept 5px at bottom */
+    margin: 2px auto -2px; 
+    background: none;
+    border: none;
+    color: rgba(212, 175, 55, 0.6);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    /* Reduced vertical padding from 5px to 2px */
+    padding: 3px 3px; 
+    border-bottom: 1px solid transparent;
+    line-height: 1; /* Ensures no extra height from line spacing */
+	height: auto;
+    min-height: 0;
 }
 
-@keyframes handwriting {
-  to {
-    stroke-dashoffset: 0;
-  }
+.back-text-link:hover {
+    color: var(--gold-bright); /* Lights up on hover */
+    letter-spacing: 3px; /* Subtle "expanding" animation */
+    border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+    opacity: 1;
 }
 
-.redeem-btn {
-margin-top: 25px;
+/* Optional: Add a small arrow icon via CSS */
+.back-text-link::before {
+    content: '← ';
+    font-size: 0.8rem;
+    margin-right: 5px;
+    transition: margin-right 0.4s ease;
+}
+
+.back-text-link:hover::before {
+    margin-right: 10px; /* Moves arrow slightly left on hover */
 }

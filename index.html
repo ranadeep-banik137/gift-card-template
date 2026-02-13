@@ -2,88 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Delivery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Royal Invitation</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
 
-    <div class="main-bg"></div>
-
-    <div class="container">
-        <div class="envelope-wrapper" id="envelope-container">
-			<div class="teaser-card">
-			<p class="teaser-text">A secured surprise awaits 💌</p>
-			</div>
-            <div class="envelope" id="envelope" onclick="handleEnvelopeClick()">
-				<div class="front"></div>
-				<div class="top"></div>
-				<div class="card dummy-card"></div>
-			</div>
-            <p class="instruction">Click the envelope to reveal your gift</p>
-        </div>
-
-        <div id="otp-section" class="hidden">
-            <div class="elegant-card">
-                <h2 class="cinzel">Security Verification</h2>
-                <p class="card-desc">A 6-digit code has been sent to your email.</p>
-                
-                <div class="input-group">
-                    <input type="text" id="otp-input" maxlength="6" placeholder="000000">
-                </div>
-                
-                <button class="gold-btn" onclick="verifyOTP()">Unlock Message</button>
-                
-                <div class="resend-group">
-                    <button id="resend-btn" class="resend-link" onclick="resendOTP()">Resend Code</button>
-                    <span id="timer" class="timer-text"></span>
-                </div>
-                
-                <p id="error-msg" class="error"></p>
-            </div>
-        </div>
-		
-		<div id="reveal-stage" class="hidden">
-			<div class="mask-container">
-				<div class="mask-layer">
-				  <img src="https://img.freepik.com/free-photo/authentic-indian-bride-groom-s-hands-holding-together-traditional-wedding-attire_8353-10049.jpg?t=st=1770534526~exp=1770538126~hmac=059fa337fa2a57a814ffd850dabeda7fcf97f686ce494b3289e7677712b06438" class="reveal-img">
-				</div>
-				<div class="mask-layer">
-				  <img src="https://img.freepik.com/free-photo/wedding-ritual-putting-ring-finger-india_8353-10048.jpg?t=st=1770534549~exp=1770538149~hmac=0aa54ea69616f6067909fd5776d8d83bdc879368670479162ff03ecee5b4de95" class="reveal-img">
-				</div>
-				<div class="mask-layer">
-				  <img src="https://img.freepik.com/free-photo/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_8353-8909.jpg?t=st=1770534569~exp=1770538169~hmac=66ada7bef6858afe0550fb2a347ead76ebfac1b5e2178beda39142298ef01e81" class="reveal-img">
-				</div>
-			<svg class="handwrite-text" viewBox="0 0 600 120">
-			  <path d="
-				M20 80
-				Q120 20 220 80
-				T420 80
-				Q520 60 580 80
-			  " />
-			</svg>
-			</div>
-		</div>
-		
-        <div id="gift-message" class="hidden">
-            <div class="elegant-card">
-                <h1 class="cursive">To the Happy Couple</h1>
-                <div class="divider"></div>
-                <p class="message-body">May your love grow stronger with every passing year. This gift is a small token of my appreciation for your beautiful journey together.</p>
-                <p class="signature cursive">- With Love</p>
-				
-				<button class="gold-btn redeem-btn" onclick="initiateRedeem()">Redeem Your Gift 🎁</button>
-				<p id="status-msg" class="card-desc hidden"></p>
-            </div>
+    <div class="cinematic-container">
+        <div class="video-overlay"></div>
+        <div class="slideshow">
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1920&q=80')"></div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1920&q=80')"></div>
         </div>
     </div>
 
+    <div class="app-wrapper">
+        <header class="main-header" id="mainHeader">
+            <h1 class="brand-title">R<span>d</span>B crafts</h1>
+            <div class="line-separator"></div>
+            <p class="guest-welcome">Gift Access Portal</p>
+        </header>
+
+        <div class="content-body">
+            <div id="giftSection" class="stage active">
+				<div class="envelope-container" onclick="handleEnvelopeOpen()">
+					<div class="envelope">
+						<div class="flap"></div>
+						<div class="letter">
+							<div class="letter-inner">
+								<span>Royal Invitation</span>
+							</div>
+						</div>
+					</div>
+					</div>
+				<p class="tap-hint">Unlock Your Invitation</p> 
+			</div>
+
+            <div id="authSection" class="stage hidden">
+                <div class="premium-card">
+                    <div class="card-header">
+                        <h3>Guest Verification</h3>
+                        <p class="subtitle">Please enter your registered email to unlock your exclusive wedding voucher.</p>
+                    </div>
+
+                    <div id="emailInputGroup" class="form-container">
+                        <div class="input-wrapper">
+                            <label>Email Address</label>
+                            <input type="email" id="email" placeholder="e.g. guest@example.com" autocomplete="off">
+                        </div>
+                        <button class="gold-action-btn" id="sendBtn" onclick="requestOTP()">Request Access Code</button>
+                    </div>
+
+                    <div id="otpInputGroup" class="form-container hidden">
+                        <p class="otp-status-msg">We've sent a 6-digit code to your inbox.</p>
+                        <div class="input-wrapper">
+                            <label>Verification Code</label>
+                            <input type="text" id="otp" placeholder="0 0 0 0 0 0" maxlength="6" class="otp-input">
+                        </div>
+                        <button class="gold-action-btn" onclick="verifyAndRedirect()">Unlock Voucher</button>
+                        <button class="back-text-link" onclick="resetUI()">Use a different email</button>
+                    </div>
+
+                    <div id="loading" class="hidden">
+                        <div class="shimmer-loader"></div>
+                        <p class="loading-text">Authenticating...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="legal-footer">
+			© 2026 RANADEEP'S ARTCRAFTS • ALL RIGHTS RESERVED
+		</footer>
+    </div>
+
     <script src="script.js"></script>
-	<audio id="bg-music" src="romantic.mp3" preload="auto"></audio>
 </body>
 </html>
