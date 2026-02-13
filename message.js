@@ -1,8 +1,8 @@
 let currentSlideIndex = 0;
 let totalSlides = 0;
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const authId = localStorage.getItem('auth_session_id');
+async function startMessageSequence() {
+	const authId = localStorage.getItem('auth_session_id');
     const isValidated = localStorage.getItem('otp_validated');
     const sessionExpiry = localStorage.getItem('session_expiry');
 
@@ -22,6 +22,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 	startBackgroundSlideshow()
 	startSessionTimer();
     await loadJourney(authId);
+}
+
+// Keep a backup listener in case init.js is already done
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.supabaseClient) startMessageSequence();
 });
 
 async function loadJourney(id) {

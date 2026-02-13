@@ -1,14 +1,20 @@
-        document.addEventListener('DOMContentLoaded', () => {
-            const authId = localStorage.getItem('auth_session_id');
-            const guestName = localStorage.getItem('guestName');
-            console.log('User ID', authId)
-            if (!authId) { window.location.href = "index.html"; return; }
-            document.getElementById('guestName').innerText = guestName || "Royal Guest";
-            
-            fetchVoucherData(authId);
-            startSessionTimer(); // Logic matched with message.js
-            initSlideshow();
-        });
+        // Function that init.js will call
+		async function startPayoutSequence() {
+			const authId = localStorage.getItem('auth_session_id');
+			const guestName = localStorage.getItem('guestName');
+			
+			if (!authId) { window.location.href = "index.html"; return; }
+			
+			document.getElementById('guestName').innerText = guestName || "Royal Guest";
+			
+			await fetchVoucherData(authId);
+			startSessionTimer();
+			initSlideshow();
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			if (window.supabaseClient) startPayoutSequence();
+		});
 
         async function fetchVoucherData(authId) {
             try {
