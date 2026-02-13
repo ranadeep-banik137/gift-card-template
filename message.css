@@ -89,29 +89,46 @@ body, html {
     max-height: 100%;
 }
 
+/* CINEMATIC AUTO-ZOOM FRAME */
 .photo-frame {
-    overflow: hidden; /* This keeps the zoom contained */
-    border: 1px solid rgba(212, 175, 55, 0.3); /* Matches your gold theme */
-    transition: border-color 0.5s ease;
+    overflow: hidden; /* Keeps the zoom strictly inside the borders */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
 .photo-frame img {
-    /* RESTORING YOUR ORIGINAL SIZING */
+    /* Your original sizing logic preserved */
     display: block; 
     width: auto; 
     max-width: 100%; 
     max-height: 50vh; 
     object-fit: contain;
 
-    /* ADDING THE ANIMATION LOGIC */
-    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    /* THE AUTO-ZOOM ANIMATION */
+    /* 12 seconds for a very slow, elegant movement */
+    animation: royalPulse 2s ease-in-out infinite alternate;
     will-change: transform;
 }
 
-/* THE ZOOM EFFECT */
-/* This triggers when the mouse enters the frame area */
-.photo-frame:hover img {
-    transform: scale(1.1); /* Zoom in by 10% */
+/* The Animation Logic */
+@keyframes royalPulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        /* Subtle 12% zoom to ensure resolution stays crisp */
+        transform: scale(1.12); 
+    }
+}
+
+/* Optional: Slight glow when the auto-zooming image is hovered */
+.photo-frame:hover {
+    border-color: rgba(212, 175, 55, 0.8);
+    transition: border-color 0.5s ease;
 }
 
 /* SCROLLABLE NOTEBOOK (Modern Luxury) */
