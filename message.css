@@ -261,3 +261,67 @@ body, html {
         padding-bottom: env(safe-area-inset-bottom, 10px); 
     }
 }
+
+/* LIGHTBOX MODAL */
+/* Ensure the modal is hidden by default and handles clicks correctly */
+.image-modal {
+    display: none; /* Keep this */
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* This is the critical fix to make it appear */
+.image-modal.active {
+    display: flex !important; 
+    opacity: 1;
+}
+
+/* Styling the image inside the modal to ensure it fits the screen */
+.modal-content {
+    max-width: 90%;
+    max-height: 75vh;
+    object-fit: contain;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.image-modal.active .modal-content {
+    transform: scale(1);
+}
+
+/* TRANSPARENT DOWNLOAD BUTTON */
+.download-link {
+    margin-top: 25px;
+    padding: 12px 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #d4af37;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.download-link:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #d4af37;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.modal-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: white;
+    font-size: 35px;
+    font-weight: 200;
+}

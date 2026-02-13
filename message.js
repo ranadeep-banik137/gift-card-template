@@ -41,17 +41,17 @@ async function loadJourney(id) {
         slide.id = `slide-${index}`;
         
         slide.innerHTML = `
-            <div class="photo-container">
-                <div class="photo-frame">
-                    <img src="${item.img_url}" alt="Memory">
-                </div>
-            </div>
-            <div class="note-container">
-                <div class="notebook-page">
-                    <h2>${item.img_note}</h2>
-                </div>
-            </div>
-        `;
+			<div class="photo-container">
+				<div class="photo-frame" onclick="openModal('${item.img_url}')" style="cursor: zoom-in;">
+					<img src="${item.img_url}" alt="Memory">
+				</div>
+			</div>
+			<div class="note-container">
+				<div class="notebook-page">
+					<h2>${item.img_note}</h2>
+				</div>
+			</div>
+		`;
         viewport.appendChild(slide);
     });
 
@@ -140,4 +140,18 @@ function startSessionTimer() {
             }
         }
     }, 1000);
+}
+
+function openModal(imgSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('fullImage');
+    const downloadBtn = document.getElementById('downloadBtn');
+    
+    modal.classList.add('active');
+    modalImg.src = imgSrc;
+    downloadBtn.href = imgSrc; // Set the download link to the image URL
+}
+
+function closeModal() {
+    document.getElementById('imageModal').classList.remove('active');
 }

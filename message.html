@@ -19,7 +19,6 @@
 
         <main id="storyViewport" class="main-stage">
             </main>
-
         <footer class="bottom-bar">
             <div id="navButtons" class="controls-wrapper">
                 <button class="nav-arrow" onclick="prevSlide()">‹ BACK</button>
@@ -32,5 +31,12 @@
 		</footer>
     </div>
     <script src="message.js"></script>
+	<div id="imageModal" class="image-modal" onclick="closeModal()">
+		<span class="modal-close" style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;">&times;</span>
+		<img class="modal-content" id="fullImage">
+		<a id="downloadBtn" class="download-link" href="#" download="MyRoyalMemory.jpg" onclick="event.stopPropagation()" style="margin-top:20px;">
+			DOWNLOAD MEMORY
+		</a>
+	</div>
 </body>
 </html>
