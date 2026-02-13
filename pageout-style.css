@@ -1,8 +1,16 @@
 /* --- Global Body Fix --- */
 .payout-body {
-  margin: 0; background: #050505; color: #fff;
-  height: 100dvh; width: 100vw; overflow: hidden;
-  display: flex; justify-content: center; align-items: center;
+  margin: 0; 
+  background: #050505; 
+  color: #fff;
+  min-height: 100dvh; /* Changed from height to min-height */
+  width: 100vw; 
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  padding: 60px 0; /* Added padding so content doesn't touch edges when scrolling */
 }
 
 /* --- Session Timer (Matched with Message Page) --- */
@@ -48,9 +56,14 @@
 
 /* --- Imperial UI --- */
 .payout-overlay {
-  z-index: 10; display: flex; flex-direction: column;
-  align-items: center; width: 90%; max-width: 500px;
-  margin-top: 40px; /* Safety margin for timer */
+  z-index: 10; 
+  display: flex; 
+  flex-direction: column;
+  align-items: center; 
+  width: 90%; 
+  max-width: 500px;
+  position: relative; /* Ensure it stays in the document flow */
+  margin: auto; /* Center it within the padded body */
 }
 
 .royal-title {
